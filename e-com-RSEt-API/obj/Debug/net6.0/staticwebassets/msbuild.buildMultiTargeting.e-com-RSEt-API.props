@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\e-com-RSEt-API.props" />
+</Project>

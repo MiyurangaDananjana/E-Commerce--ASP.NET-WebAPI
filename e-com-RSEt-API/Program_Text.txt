@@ -1,0 +1,19 @@
+﻿Scaffold-DbContext "Server=.\SQLExpress;Database=SchoolDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+this code use the extiting data base add the system
+
+Data Source=DESKTOP-2DVOUG1\SQLEXPRESS;Initial Catalog=E_COM_WEB;Integrated Security=True
+
+careded the data insert part 
+
+Scaffold-DbContext "Server=DESKTOP-2DVOUG1\SQLEXPRESS;Database=E_COM_WEB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+add the home controll class - 
+-----------------------------
+RAM - DATA INSERT PARAT DONE -
+VGA - ADD DATA INSERT PART
+HARD - DATA INSERT PART DONE
+ANTIVIRUS GARD - DATA INSERT PARAT DONE
+PROCESSOR - DATA INSERT PART DANE
+
+ADD- new laptop model add the system
