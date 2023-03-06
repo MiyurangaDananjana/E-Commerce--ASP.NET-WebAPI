@@ -211,7 +211,6 @@ namespace e_com_RSEt_API.Controllers
                 return Ok("Success");
             }
         }
-
         /*VGA INSERT*/
         [HttpPost]
         [Route("addNewVGA")]
@@ -231,11 +230,9 @@ namespace e_com_RSEt_API.Controllers
                 return Ok("Success");
             }
         }
-
-
         /*add new laptop or desktop*/
         [HttpPost]
-        [Route("new-l-d")]
+        [Route("newLapDesk")]
         public IActionResult addNewLaptopDesktop(LaptopDesktopView laptopDesktopView)
         {
             if (laptopDesktopView == null)

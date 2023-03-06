@@ -67,3 +67,5 @@ F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win\lib\ne
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\AutoMapper.dll
+F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

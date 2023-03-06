@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Runtime.InteropServices;
 
 namespace e_com_RSEt_API.Controllers
 {
@@ -16,47 +18,14 @@ namespace e_com_RSEt_API.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
         }
+
         /*Image Upload*/
-        [HttpPost]
-        [Route("computer-image-upload")]
-        public async Task<string> Post([FromForm] imageUpload imageUpload)
-        {
-            try
-            {
-                if (imageUpload.files.Length > 0)
-                {
-                   
-
-                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    using (FileStream fileStream = System.IO.File.Create(path + imageUpload.files.FileName))
-                    {
-                        imageUpload.files.CopyTo(fileStream);
-                        fileStream.Flush();
-                        return "Upload Done";
-                    }
-                }
-                else
-                {
-                    return "fales";
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        
         [HttpGet("{fileName}")]
         public async Task<IActionResult> GetImage([FromRoute] string fileName)
         {
             string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
-            var filePath = path + fileName + ".png";
-            var filePathjpg = path + fileName + ".jpg";
+            var filePath = path + fileName;
+            var filePathjpg = path + fileName;
             if (System.IO.File.Exists(filePath))
             {
                 byte[] b = System.IO.File.ReadAllBytes(filePath);
@@ -67,7 +36,39 @@ namespace e_com_RSEt_API.Controllers
                 byte[] b = System.IO.File.ReadAllBytes(filePathjpg);
                 return File(b, "image/jpg");
             }
-            return null;
+            // If the file is not found, return a 404 Not Found response
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("upload")]
+        public async Task<IActionResult> PostImage([FromForm] imageUpload imageUpload)
+        {
+            try
+            {
+                if (imageUpload.files.Length > 0)
+                {
+                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (FileStream fileStream = System.IO.File.Create(path + imageUpload.files.FileName))
+                    {
+                        imageUpload.files.CopyTo(fileStream);
+                        fileStream.Flush();
+                        return Ok("Upload Done"); // HTTP 200 OK
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid request"); // HTTP 400 Bad Request
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error"); // return JSON object with message property
+            }
         }
 
     }

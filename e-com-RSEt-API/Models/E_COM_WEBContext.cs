@@ -15,7 +15,7 @@ namespace e_com_RSEt_API.Models
             : base(options)
         {
         }
-
+        public virtual DbSet<ComputerManufacturer> ComputerManufacturers { get; set; } = null!;
         public virtual DbSet<AdminLogin> AdminLogins { get; set; } = null!;
         public virtual DbSet<AntivirusGard> AntivirusGards { get; set; } = null!;
         public virtual DbSet<CumputerHard> CumputerHards { get; set; } = null!;
@@ -288,6 +288,20 @@ namespace e_com_RSEt_API.Models
                 entity.Property(e => e.Type)
                     .HasMaxLength(50)
                     .HasColumnName("TYPE");
+            });
+
+            modelBuilder.Entity<ComputerManufacturer>(entity =>
+            {
+                entity.HasKey(e => e.ManufacturersId);
+
+                entity.ToTable("COMPUTER_MANUFACTURERS");
+
+                entity.Property(e => e.ManufacturersId).HasColumnName("MANUFACTURERS_ID");
+
+                entity.Property(e => e.ManufacturersName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MANUFACTURERS_NAME");
             });
 
             modelBuilder.Entity<ProductSpacification>(entity =>
