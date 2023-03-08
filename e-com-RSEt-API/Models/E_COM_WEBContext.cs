@@ -15,9 +15,13 @@ namespace e_com_RSEt_API.Models
             : base(options)
         {
         }
-        public virtual DbSet<ComputerManufacturer> ComputerManufacturers { get; set; } = null!;
+
         public virtual DbSet<AdminLogin> AdminLogins { get; set; } = null!;
         public virtual DbSet<AntivirusGard> AntivirusGards { get; set; } = null!;
+        public virtual DbSet<ComModel> ComModels { get; set; } = null!;
+        public virtual DbSet<ComSeries> ComSeries { get; set; } = null!;
+        public virtual DbSet<ComputerManufacturer> ComputerManufacturers { get; set; } = null!;
+        public virtual DbSet<ComputerType> ComputerTypes { get; set; } = null!;
         public virtual DbSet<CumputerHard> CumputerHards { get; set; } = null!;
         public virtual DbSet<CumputerProcessor> CumputerProcessors { get; set; } = null!;
         public virtual DbSet<CumputerRam> CumputerRams { get; set; } = null!;
@@ -25,53 +29,21 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<CustomerAddressTb> CustomerAddressTbs { get; set; } = null!;
         public virtual DbSet<CustomerDetail> CustomerDetails { get; set; } = null!;
         public virtual DbSet<HardDriveType> HardDriveTypes { get; set; } = null!;
+        public virtual DbSet<LaptopDesktopView> LaptopDesktopViews { get; set; } = null!;
+        public virtual DbSet<NewComputer> NewComputers { get; set; } = null!;
         public virtual DbSet<ProductSpacification> ProductSpacifications { get; set; } = null!;
         public virtual DbSet<ShipingMethod> ShipingMethods { get; set; } = null!;
-        public virtual DbSet<LaptopDesktopView> LaptopDesktopViews { get; set; } = null!;
-
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-2DVOUG1\\SQLEXPRESS;Initial Catalog=E_COM_WEB;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-2DVOUG1\\SQLEXPRESS;Database=E_COM_WEB;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LaptopDesktopView>(entity =>
-            {
-                entity.HasKey(e => e.CumputerId);
-
-                entity.ToTable("LAPTOP_DESKTOP_VIEW");
-
-                entity.Property(e => e.CumputerId).HasColumnName("CUMPUTER_ID");
-
-                entity.Property(e => e.ImagePath)
-                    .HasMaxLength(50)
-                    .HasColumnName("IMAGE_PATH");
-
-                entity.Property(e => e.LD)
-                    .HasMaxLength(50)
-                    .HasColumnName("L/D");
-
-                entity.Property(e => e.Manufacture)
-                    .HasMaxLength(50)
-                    .HasColumnName("MANUFACTURE");
-
-                entity.Property(e => e.Model)
-                    .HasMaxLength(50)
-                    .HasColumnName("MODEL");
-
-                entity.Property(e => e.Price).HasColumnName("PRICE");
-
-                entity.Property(e => e.Year)
-                    .HasColumnType("date")
-                    .HasColumnName("YEAR");
-            });
-
             modelBuilder.Entity<AdminLogin>(entity =>
             {
                 entity.HasKey(e => e.AdminId);
@@ -113,6 +85,66 @@ namespace e_com_RSEt_API.Models
                     .HasColumnName("ANTIVIRUS_NAME");
 
                 entity.Property(e => e.Price).HasColumnName("PRICE");
+            });
+
+            modelBuilder.Entity<ComModel>(entity =>
+            {
+                entity.HasKey(e => e.ModelId);
+
+                entity.ToTable("COM_MODEL");
+
+                entity.Property(e => e.ModelId).HasColumnName("MODEL_ID");
+
+                entity.Property(e => e.ModelName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MODEL_NAME");
+
+                entity.Property(e => e.SeriesId).HasColumnName("SERIES_ID");
+            });
+
+            modelBuilder.Entity<ComSeries>(entity =>
+            {
+                entity.HasKey(e => e.SeriesId);
+
+                entity.ToTable("COM_SERIES");
+
+                entity.Property(e => e.SeriesId).HasColumnName("SERIES_ID");
+
+                entity.Property(e => e.ComputerTypeId).HasColumnName("COMPUTER_TYPE_ID");
+
+                entity.Property(e => e.MfId).HasColumnName("MF_ID");
+
+                entity.Property(e => e.SeriesName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("SERIES_NAME");
+            });
+
+            modelBuilder.Entity<ComputerManufacturer>(entity =>
+            {
+                entity.HasKey(e => e.ManufacturersId);
+
+                entity.ToTable("COMPUTER_MANUFACTURERS");
+
+                entity.Property(e => e.ManufacturersId).HasColumnName("MANUFACTURERS_ID");
+
+                entity.Property(e => e.ManufacturersName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MANUFACTURERS_NAME");
+            });
+
+            modelBuilder.Entity<ComputerType>(entity =>
+            {
+                entity.ToTable("COMPUTER_TYPE");
+
+                entity.Property(e => e.ComputerTypeId).HasColumnName("COMPUTER_TYPE_ID");
+
+                entity.Property(e => e.ComputerType1)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("COMPUTER_TYPE");
             });
 
             modelBuilder.Entity<CumputerHard>(entity =>
@@ -290,19 +322,62 @@ namespace e_com_RSEt_API.Models
                     .HasColumnName("TYPE");
             });
 
-            modelBuilder.Entity<ComputerManufacturer>(entity =>
+            modelBuilder.Entity<LaptopDesktopView>(entity =>
             {
-                entity.HasKey(e => e.ManufacturersId);
+                entity.HasKey(e => e.CumputerId);
 
-                entity.ToTable("COMPUTER_MANUFACTURERS");
+                entity.ToTable("LAPTOP_DESKTOP_VIEW");
 
-                entity.Property(e => e.ManufacturersId).HasColumnName("MANUFACTURERS_ID");
+                entity.Property(e => e.CumputerId).HasColumnName("CUMPUTER_ID");
 
-                entity.Property(e => e.ManufacturersName)
+                entity.Property(e => e.ImagePath)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("MANUFACTURERS_NAME");
+                    .HasColumnName("IMAGE_PATH");
+
+                entity.Property(e => e.LD)
+                    .HasMaxLength(50)
+                    .HasColumnName("L/D");
+
+                entity.Property(e => e.Manufacture)
+                    .HasMaxLength(50)
+                    .HasColumnName("MANUFACTURE");
+
+                entity.Property(e => e.Model)
+                    .HasMaxLength(50)
+                    .HasColumnName("MODEL");
+
+                entity.Property(e => e.Price).HasColumnName("PRICE");
+
+                entity.Property(e => e.Year)
+                    .HasColumnType("date")
+                    .HasColumnName("YEAR");
             });
+
+            modelBuilder.Entity<NewComputer>(entity =>
+            {
+                entity.HasKey(e => e.ComId);
+
+                entity.ToTable("NEW_COMPUTER");
+
+                entity.Property(e => e.ComId).HasColumnName("COM_ID");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .HasColumnName("DESCRIPTION");
+
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(50)
+                    .HasColumnName("IMAGE_PATH");
+
+                entity.Property(e => e.ModelId).HasColumnName("MODEL_ID");
+
+                entity.Property(e => e.Price).HasColumnName("PRICE");
+
+                entity.Property(e => e.States).HasColumnName("STATES");
+            });
+
+
+
 
             modelBuilder.Entity<ProductSpacification>(entity =>
             {

@@ -1,6 +1,8 @@
-﻿using e_com_RSEt_API.BLL;
+﻿
+using e_com_RSEt_API.BLL;
 using e_com_RSEt_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_com_RSEt_API.Controllers
 {
@@ -8,7 +10,13 @@ namespace e_com_RSEt_API.Controllers
     [ApiController]
     public class HomeController : Controller
     {
-       
+        private readonly E_COM_WEBContext dbContext;
+
+        public HomeController(E_COM_WEBContext context)
+        {
+            dbContext = context;
+        }
+
         //save customer details to CUSTOMER_DETIL Tb
         [HttpPost]
         [Route("set-customer")]
@@ -20,6 +28,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 CustomerDetail dto = new CustomerDetail();
                 dto.FristName = customerDetail.FristName;
                 dto.LastName = customerDetail.LastName;
@@ -29,7 +38,7 @@ namespace e_com_RSEt_API.Controllers
                 dto.Password = customerDetail.Password;
                 dto.Statest = Convert.ToInt32(1);
                 dto.CreateDate = DateTime.Now;
-                HomeBLL.saveCustomer(dto);
+                homeBLL.saveCustomer(dto);
                 return Ok("SaveCustomer");
             }
 
@@ -46,13 +55,14 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 CustomerAddressTb dto = new CustomerAddressTb();
                 dto.CustomerCode = customerAddressTb.CustomerCode;
                 dto.AddressLine1 = customerAddressTb.AddressLine1;
                 dto.AddressLine2 = customerAddressTb.AddressLine2;
                 dto.PostalCode = customerAddressTb.PostalCode;
                 dto.City = customerAddressTb.City;
-                HomeBLL.saveCustomerAddress(dto);
+                homeBLL.saveCustomerAddress(dto);
                 return Ok("Save Address");
             }
         }
@@ -68,10 +78,11 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 AntivirusGard antivirus = new AntivirusGard();
                 antivirus.AntivirusName = antivirusGard.AntivirusName;
                 antivirus.Price = antivirusGard.Price;
-                HomeBLL.saveAntivirusGard(antivirus);
+                homeBLL.saveAntivirusGard(antivirus);
                 return Ok("Save Success");
             }
         }
@@ -87,12 +98,13 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 CumputerHard dto = new CumputerHard();
                 dto.HardName = hardDrive.HardName;
                 dto.Capacity = hardDrive.Capacity;
                 dto.Type = hardDrive.Type;
                 dto.Price = hardDrive.Price;
-                HomeBLL.saveNewHardDrive(dto);
+                homeBLL.saveNewHardDrive(dto);
                 return Ok("Success add");
             }
         }
@@ -108,11 +120,12 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 CumputerProcessor dto = new CumputerProcessor();
                 dto.ProcessorName = processorTyp.ProcessorName;
                 dto.Capacity = processorTyp.Capacity;
                 dto.PriceDouble = processorTyp.PriceDouble;
-                HomeBLL.saveProcessor(dto);
+                homeBLL.saveProcessor(dto);
                 return Ok("success");
             }
         }
@@ -128,6 +141,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 ProductSpacification dto = new ProductSpacification();
                 dto.Name = productSpacification.Name;
                 dto.ComouterType = productSpacification.ComouterType;
@@ -140,7 +154,7 @@ namespace e_com_RSEt_API.Controllers
                 dto.Antivirus = productSpacification.Antivirus;
                 dto.Warranty = productSpacification.Warranty;
                 dto.ImgePath = productSpacification.ImgePath;
-                HomeBLL.saveNewProduct(dto);
+                homeBLL.saveNewProduct(dto);
                 return Ok("success");
             }
         }
@@ -156,13 +170,14 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 AdminLogin dto = new AdminLogin();
                 dto.FullName = adminLogin.FullName;
                 dto.PhoneNumber = adminLogin.PhoneNumber;
                 dto.Dob = adminLogin.Dob;
                 dto.UserName = adminLogin.UserName;
                 dto.Password = adminLogin.Password;
-                HomeBLL.addNewAdmin(dto);
+                homeBLL.addNewAdmin(dto);
                 return Ok("success");
             }
         }
@@ -203,11 +218,12 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 CumputerRam dto = new CumputerRam();
                 dto.RamName = cumputerRam.RamName;
                 dto.Capacity = cumputerRam.Capacity;
                 dto.Price = cumputerRam.Price;
-                HomeBLL.addNewRam(dto);
+                homeBLL.addNewRam(dto);
                 return Ok("Success");
             }
         }
@@ -222,11 +238,12 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 CumputerVga dto = new CumputerVga();
                 dto.VgaName = cumputerVga.VgaName;
                 dto.Capacity = cumputerVga.Capacity;
                 dto.Price = cumputerVga?.Price;
-                HomeBLL.addNewVga(dto);
+                homeBLL.addNewVga(dto);
                 return Ok("Success");
             }
         }
@@ -242,6 +259,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
+                var homeBLL = new HomeBLL(dbContext);
                 LaptopDesktopView dto = new LaptopDesktopView();
                 dto.Manufacture = laptopDesktopView.Manufacture;
                 dto.Model = laptopDesktopView.Model;
@@ -249,11 +267,75 @@ namespace e_com_RSEt_API.Controllers
                 dto.LD = laptopDesktopView.LD;
                 dto.Price = laptopDesktopView.Price;
                 dto.ImagePath = laptopDesktopView.ImagePath;
-                HomeBLL.addNewLaptopOrDesktop(dto);
+                homeBLL.addNewLaptopOrDesktop(dto);
+                return Ok("Success");
+            }
+        }
+        /*add new computer series*/
+        [HttpPost]
+        [Route("addnewcpmseries")]
+        public IActionResult addNewComputerSeries(ComSeries comSeries)
+        {
+            if (comSeries == null)
+            {
+
+                return NotFound();
+            }
+            else
+            {
+                var homeBLL = new HomeBLL(dbContext);
+                ComSeries dto = new ComSeries();
+                dto.SeriesName = comSeries.SeriesName;
+                dto.MfId= comSeries.MfId;
+                dto.ComputerTypeId = comSeries.ComputerTypeId;
+                homeBLL.addnewComputerSeries(dto);
                 return Ok("Success");
             }
         }
 
-     
+        /*add new computer series*/
+        [HttpPost]
+        [Route("newModel")]
+        public IActionResult addNewModel(ComModel comModel)
+        {
+            if (comModel == null)
+            {
+
+                return NotFound();
+            }
+            else
+            {
+                var homeBLL = new HomeBLL(dbContext);
+                ComModel dto = new ComModel();
+                dto.ModelName = comModel.ModelName;
+                dto.SeriesId= comModel.SeriesId;
+                homeBLL.addnewModel(dto);
+                return Ok("Success");
+            }
+        }
+
+        /*add new computer series*/
+        [HttpPost]
+        [Route("newcomputer")]
+        public IActionResult addNewComputer(NewComputer newComputer)
+        {
+            if (newComputer == null)
+            {
+
+                return NotFound();
+            }
+            else
+            {
+                var homeBLL = new HomeBLL(dbContext);
+                NewComputer dto = new NewComputer();
+                dto.ModelId= newComputer.ModelId;
+                dto.Description= newComputer.Description;
+                dto.Price  = newComputer.Price;
+                dto.ImagePath= newComputer.ImagePath;
+
+                homeBLL.addNewComputer(dto);
+                return Ok("Success");
+            }
+        }
     }
 }

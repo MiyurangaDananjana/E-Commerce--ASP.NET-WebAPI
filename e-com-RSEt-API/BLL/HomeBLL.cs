@@ -6,54 +6,125 @@ namespace e_com_RSEt_API.BLL
 {
     public class HomeBLL
     {
-        internal static void addNewAdmin(AdminLogin dto)
+        private readonly E_COM_WEBContext _db;
+
+        public HomeBLL(E_COM_WEBContext db)
         {
-            HomeDAL.saveAdminUser(dto);
+            _db = db;
         }
 
-        internal static void addNewLaptopOrDesktop(LaptopDesktopView dto)
+        public void addNewAdmin(AdminLogin dto)
         {
-            HomeDAL.saveDataToLaptopRoDesktopDetails(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveAdminUser(dto);
+
         }
 
-        internal static void addNewRam(CumputerRam dto)
+        public void addNewLaptopOrDesktop(LaptopDesktopView dto)
         {
-            HomeDAL.addNewRam(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveDataToLaptopRoDesktopDetails(dto);
         }
 
-        internal static void addNewVga(CumputerVga dto)
+        public void addNewRam(CumputerRam dto)
         {
-            HomeDAL.addNewVga(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.addNewRam(dto);
         }
 
-        internal static void saveAntivirusGard(AntivirusGard antivirus)
+        public void addNewVga(CumputerVga dto)
         {
-            HomeDAL.saveAntivirusGard(antivirus);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.addNewVga(dto);
         }
 
-        internal static void saveCustomer(CustomerDetail dto)
+        public void saveAntivirusGard(AntivirusGard antivirus)
         {
-            HomeDAL.saveCustomerDataBase(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveAntivirusGard(antivirus);
         }
 
-        internal static void saveCustomerAddress(CustomerAddressTb dto)
+        public void saveCustomer(CustomerDetail dto)
         {
-            HomeDAL.saveCustomerAddress(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveCustomerDataBase(dto);
         }
 
-        internal static void saveNewHardDrive(CumputerHard dto)
+        public void saveCustomerAddress(CustomerAddressTb dto)
         {
-            HomeDAL.SaveNewHardDrive(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveCustomerAddress(dto);
         }
 
-        internal static void saveNewProduct(ProductSpacification dto)
+        public void saveNewHardDrive(CumputerHard dto)
         {
-            HomeDAL.saveNewProduct(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.SaveNewHardDrive(dto);
         }
 
-        internal static void saveProcessor(CumputerProcessor dto)
+        public void saveNewProduct(ProductSpacification dto)
         {
-            HomeDAL.saveNewProcessor(dto);
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveNewProduct(dto);
+        }
+
+        public void saveProcessor(CumputerProcessor dto)
+        {
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.saveNewProcessor(dto);
+        }
+
+        public void  addnewComputerSeries(ComSeries dto)
+        {
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.addnewComputerSeries(dto);
+        }
+
+        public void addnewModel(ComModel dto)
+        {
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.addNewModel(dto);
+        }
+
+        internal void addNewComputer(NewComputer dto)
+        {
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.addNewComputer(dto);
+        }
+
+        internal static seleComputerList computerDetails()
+        {
+            seleComputerList dto = new seleComputerList();
+            dto.saleComputerDTOs = HomeDAL.GetComputerDetails();
+            return dto;
+        }
+
+        internal static seleComputerList oderByModels(int modelId)
+        {
+            seleComputerList dto = new seleComputerList();
+            dto.saleComputerDTOs = HomeDAL.oderByModels(modelId);
+            return dto;
+        }
+
+        internal static seleComputerList oderBySeries(int modelId)
+        {
+            seleComputerList dto = new seleComputerList();
+            dto.saleComputerDTOs = HomeDAL.oderBySeries(modelId);
+            return dto;
+        }
+
+        internal static seleComputerList oderByModel(int modelId)
+        {
+            seleComputerList dto = new seleComputerList();
+            dto.saleComputerDTOs = HomeDAL.oderByModel(modelId);
+            return dto;
+        }
+
+        internal static seleComputerList oderByComputerType(int modelId)
+        {
+            seleComputerList dto = new seleComputerList();
+            dto.saleComputerDTOs = HomeDAL.oderByComputerType(modelId);
+            return dto;
         }
     }
 }

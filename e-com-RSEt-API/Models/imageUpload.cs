@@ -2,6 +2,6 @@
 {
     public class imageUpload
     {
-        public IFormFile files { get; set; }
+        public IFormFile files { get; set; } = default!;
     }
 }

@@ -6,7 +6,7 @@ Data Source=DESKTOP-2DVOUG1\SQLEXPRESS;Initial Catalog=E_COM_WEB;Integrated Secu
 
 careded the data insert part 
 
-Scaffold-DbContext "Server=DESKTOP-2DVOUG1\SQLEXPRESS;Database=E_COM_WEB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Scaffold-DbContext "Server=DESKTOP-2DVOUG1\SQLEXPRESS;Database=E_COM_WEB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -f
 
 add the home controll class - 
 -----------------------------

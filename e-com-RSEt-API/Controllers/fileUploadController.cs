@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Runtime.InteropServices;
 
@@ -13,7 +14,8 @@ namespace e_com_RSEt_API.Controllers
     [ApiController]
     public class fileUploadController : ControllerBase
     {
-        public static IWebHostEnvironment _webHostEnvironment;
+        [DisallowNull]
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public fileUploadController(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
@@ -28,12 +30,12 @@ namespace e_com_RSEt_API.Controllers
             var filePathjpg = path + fileName;
             if (System.IO.File.Exists(filePath))
             {
-                byte[] b = System.IO.File.ReadAllBytes(filePath);
+                byte[] b = await System.IO.File.ReadAllBytesAsync(filePath);
                 return File(b, "image/png");
             }
             else if (System.IO.File.Exists(filePathjpg))
             {
-                byte[] b = System.IO.File.ReadAllBytes(filePathjpg);
+                byte[] b = await System.IO.File.ReadAllBytesAsync(filePathjpg);
                 return File(b, "image/jpg");
             }
             // If the file is not found, return a 404 Not Found response
@@ -51,7 +53,7 @@ namespace e_com_RSEt_API.Controllers
                     string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
                     if (!Directory.Exists(path))
                     {
-                        Directory.CreateDirectory(path);
+                        await Task.Run(() => Directory.CreateDirectory(path));
                     }
                     using (FileStream fileStream = System.IO.File.Create(path + imageUpload.files.FileName))
                     {

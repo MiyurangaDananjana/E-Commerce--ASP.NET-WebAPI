@@ -1,73 +1,288 @@
 ﻿using e_com_RSEt_API.Models;
+using System.Linq;
 
 namespace e_com_RSEt_API.DAL
 {
     public class HomeDAL
     {
-        internal static void addNewRam(CumputerRam dto)
+        private readonly E_COM_WEBContext _db;
+
+
+
+        public HomeDAL(E_COM_WEBContext db)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.CumputerRams.Add(dto);
-            db.SaveChanges();
+            _db = db;
+        }
+        public void addNewRam(CumputerRam dto)
+        {
+
+            _db.CumputerRams.Add(dto);
+            _db.SaveChanges();
+
         }
 
-        internal static void addNewVga(CumputerVga dto)
+        public void addNewVga(CumputerVga dto)
         {
-           E_COM_WEBContext db=new E_COM_WEBContext();
-            db.CumputerVgas.Add(dto);
-            db.SaveChanges();   
+
+            _db.CumputerVgas.Add(dto);
+            _db.SaveChanges();
         }
 
-        internal static void saveAdminUser(AdminLogin dto)
+        public void saveAdminUser(AdminLogin dto)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.AdminLogins.Add(dto);
-            db.SaveChanges();
+
+            _db.AdminLogins.Add(dto);
+            _db.SaveChanges();
         }
 
-        internal static void saveAntivirusGard(AntivirusGard antivirus)
+        public void saveAntivirusGard(AntivirusGard antivirus)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.AntivirusGards.Add(antivirus);
-            db.SaveChanges();
+
+            _db.AntivirusGards.Add(antivirus);
+            _db.SaveChanges();
         }
-        internal static void saveCustomerAddress(CustomerAddressTb dto)
+        public void saveCustomerAddress(CustomerAddressTb dto)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.CustomerAddressTbs.Add(dto);
-            db.SaveChanges();
+
+            _db.CustomerAddressTbs.Add(dto);
+            _db.SaveChanges();
         }
-        internal static void saveCustomerDataBase(CustomerDetail dto)
+        public void saveCustomerDataBase(CustomerDetail dto)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.CustomerDetails.Add(dto);
-            db.SaveChanges();
+
+            _db.CustomerDetails.Add(dto);
+            _db.SaveChanges();
         }
 
-        internal static void saveDataToLaptopRoDesktopDetails(LaptopDesktopView dto)
+        public void saveDataToLaptopRoDesktopDetails(LaptopDesktopView dto)
         {
-            E_COM_WEBContext db= new E_COM_WEBContext();
-            db.LaptopDesktopViews.Add(dto);
-            db.SaveChanges();
+
+            _db.LaptopDesktopViews.Add(dto);
+            _db.SaveChanges();
         }
 
-        internal static void SaveNewHardDrive(CumputerHard dto)
+        public void SaveNewHardDrive(CumputerHard dto)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.CumputerHards.Add(dto);
-            db.SaveChanges();
+
+            _db.CumputerHards.Add(dto);
+            _db.SaveChanges();
         }
 
-        internal static void saveNewProcessor(CumputerProcessor dto)
+        public void saveNewProcessor(CumputerProcessor dto)
         {
-            E_COM_WEBContext db = new E_COM_WEBContext();
-            db.CumputerProcessors.Add(dto);
-            db.SaveChanges();
+
+            _db.CumputerProcessors.Add(dto);
+            _db.SaveChanges();
         }
 
-        internal static void saveNewProduct(ProductSpacification dto)
+        public void saveNewProduct(ProductSpacification dto)
         {
             throw new NotImplementedException();
+        }
+
+        public void addnewComputerSeries(ComSeries dto)
+        {
+            _db.ComSeries.Add(dto);
+            _db.SaveChanges();
+        }
+
+        public void addNewModel(ComModel dto)
+        {
+            _db.ComModels.Add(dto);
+            _db.SaveChanges();
+        }
+
+        public void addNewComputer(NewComputer dto)
+        {
+            _db.NewComputers.Add(dto);
+            _db.SaveChanges();
+        }
+
+        internal static List<saleComputerDTO> GetComputerDetails()
+        {
+            E_COM_WEBContext db = new E_COM_WEBContext();
+            List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+            var List =( from computerDetails in db.ComSeries
+                       join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
+                       join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
+                       join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId
+                       orderby newComputer.ComId descending
+                       select new
+                       {
+                           id = computerDetails.ComputerTypeId,
+                           mf = mf.ManufacturersName,
+                           computerSeries = computerDetails.SeriesName,
+                           computeModel = computeModel.ModelName,
+                           computerPrice = newComputer.Price,
+                           description = newComputer.Description,
+                           computerImagePath = newComputer.ImagePath,
+                       }).Take(8);
+
+            foreach (var item in List)
+            {
+                saleComputerDTO dto = new saleComputerDTO();
+                dto.comId = item.id;
+                dto.Mf = item.mf;
+                dto.Series = item.computerSeries;
+                dto.Model = item.computeModel;
+                dto.Description = item.description;
+                dto.Price = (decimal)(item.computerPrice ?? 00);
+                dto.ImagePath = item.computerImagePath;
+                saleComputerDTOs.Add(dto);
+
+            }
+            return saleComputerDTOs;
+
+        }
+
+        internal static List<saleComputerDTO> oderByModels(int modelId)
+        {
+            E_COM_WEBContext db = new E_COM_WEBContext();
+            List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+            var List = (from computerDetails in db.ComSeries
+                        where computerDetails.MfId == modelId
+                        join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
+                        join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId 
+                        join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId 
+                        orderby newComputer.ComId descending
+                        select new
+                        {
+                            id = computerDetails.ComputerTypeId,
+                            mf = mf.ManufacturersName,
+                            computerSeries = computerDetails.SeriesName,
+                            computeModel = computeModel.ModelName,
+                            computerPrice = newComputer.Price,
+                            description = newComputer.Description,
+                            computerImagePath = newComputer.ImagePath,
+                        }).Take(8);
+
+            foreach (var item in List)
+            {
+                saleComputerDTO dto = new saleComputerDTO();
+                dto.comId = item.id;
+                dto.Mf = item.mf;
+                dto.Series = item.computerSeries;
+                dto.Model = item.computeModel;
+                dto.Description = item.description;
+                dto.Price = (decimal)(item.computerPrice ?? 00);
+                dto.ImagePath = item.computerImagePath;
+                saleComputerDTOs.Add(dto);
+
+            }
+            return saleComputerDTOs;
+        }
+
+        internal static List<saleComputerDTO> oderBySeries(int modelId)
+        {
+            E_COM_WEBContext db = new E_COM_WEBContext();
+            List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+            var List = (from computerDetails in db.ComSeries
+                        where computerDetails.SeriesId == modelId
+                        join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
+                        join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
+                        join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId
+                        orderby newComputer.ComId descending
+                        select new
+                        {
+                            id = computerDetails.ComputerTypeId,
+                            mf = mf.ManufacturersName,
+                            computerSeries = computerDetails.SeriesName,
+                            computeModel = computeModel.ModelName,
+                            computerPrice = newComputer.Price,
+                            description = newComputer.Description,
+                            computerImagePath = newComputer.ImagePath,
+                        }).Take(8);
+
+            foreach (var item in List)
+            {
+                saleComputerDTO dto = new saleComputerDTO();
+                dto.comId = item.id;
+                dto.Mf = item.mf;
+                dto.Series = item.computerSeries;
+                dto.Model = item.computeModel;
+                dto.Description = item.description;
+                dto.Price = (decimal)(item.computerPrice ?? 00);
+                dto.ImagePath = item.computerImagePath;
+                saleComputerDTOs.Add(dto);
+
+            }
+            return saleComputerDTOs;
+        }
+
+        internal static List<saleComputerDTO> oderByModel(int modelId)
+        {
+            E_COM_WEBContext db = new E_COM_WEBContext();
+            List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+            var List = (from computerDetails in db.ComSeries
+                        
+                        join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
+                        join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
+                        join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId
+                        where newComputer.ModelId == modelId
+                        orderby newComputer.ComId descending
+                        select new
+                        {
+                            id = computerDetails.ComputerTypeId,
+                            mf = mf.ManufacturersName,
+                            computerSeries = computerDetails.SeriesName,
+                            computeModel = computeModel.ModelName,
+                            computerPrice = newComputer.Price,
+                            description = newComputer.Description,
+                            computerImagePath = newComputer.ImagePath,
+                        }).Take(8);
+
+            foreach (var item in List)
+            {
+                saleComputerDTO dto = new saleComputerDTO();
+                dto.comId = item.id;
+                dto.Mf = item.mf;
+                dto.Series = item.computerSeries;
+                dto.Model = item.computeModel;
+                dto.Description = item.description;
+                dto.Price = (decimal)(item.computerPrice ?? 00);
+                dto.ImagePath = item.computerImagePath;
+                saleComputerDTOs.Add(dto);
+
+            }
+            return saleComputerDTOs;
+        }
+
+        internal static List<saleComputerDTO> oderByComputerType(int modelId)
+        {
+            E_COM_WEBContext db = new E_COM_WEBContext();
+            List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+            var List = (from computerDetails in db.ComSeries
+                        where computerDetails.ComputerTypeId == modelId
+                        join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
+                        join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
+                        join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId
+                        
+                        orderby newComputer.ComId descending
+                        select new
+                        {
+                            id = computerDetails.ComputerTypeId,
+                            mf = mf.ManufacturersName,
+                            computerSeries = computerDetails.SeriesName,
+                            computeModel = computeModel.ModelName,
+                            computerPrice = newComputer.Price,
+                            description = newComputer.Description,
+                            computerImagePath = newComputer.ImagePath,
+                        }).Take(8);
+
+            foreach (var item in List)
+            {
+                saleComputerDTO dto = new saleComputerDTO();
+                dto.comId = item.id;
+                dto.Mf = item.mf;
+                dto.Series = item.computerSeries;
+                dto.Model = item.computeModel;
+                dto.Description = item.description;
+                dto.Price = (decimal)(item.computerPrice ?? 00);
+                dto.ImagePath = item.computerImagePath;
+                saleComputerDTOs.Add(dto);
+
+            }
+            return saleComputerDTOs;
         }
     }
 }
