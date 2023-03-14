@@ -126,5 +126,12 @@ namespace e_com_RSEt_API.BLL
             dto.saleComputerDTOs = HomeDAL.oderByComputerType(modelId);
             return dto;
         }
+
+        internal static seleComputerList buyComputer(int modelId)
+        {
+            seleComputerList dto = new seleComputerList();
+            dto.saleComputerDTOs = HomeDAL.buyComputer(modelId);
+            return dto;
+        }
     }
 }

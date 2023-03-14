@@ -17,32 +17,7 @@ namespace e_com_RSEt_API.Controllers
             dbContext = context;
         }
 
-        //save customer details to CUSTOMER_DETIL Tb
-        [HttpPost]
-        [Route("set-customer")]
-        public IActionResult saveCustomerDetails(CustomerDetail customerDetail)
-        {
-            if (customerDetail == null)
-            {
-                return View("Error");
-            }
-            else
-            {
-                var homeBLL = new HomeBLL(dbContext);
-                CustomerDetail dto = new CustomerDetail();
-                dto.FristName = customerDetail.FristName;
-                dto.LastName = customerDetail.LastName;
-                dto.Email = customerDetail.Email;
-                dto.PhoneNumber = customerDetail.PhoneNumber;
-                dto.UserName = customerDetail.UserName;
-                dto.Password = customerDetail.Password;
-                dto.Statest = Convert.ToInt32(1);
-                dto.CreateDate = DateTime.Now;
-                homeBLL.saveCustomer(dto);
-                return Ok("SaveCustomer");
-            }
-
-        }
+      
 
         /*Add New Address*/
         [HttpPost]

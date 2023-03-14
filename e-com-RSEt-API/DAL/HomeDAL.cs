@@ -284,5 +284,44 @@ namespace e_com_RSEt_API.DAL
             }
             return saleComputerDTOs;
         }
+
+        internal static List<saleComputerDTO> buyComputer(int modelId)
+        {
+            E_COM_WEBContext db = new E_COM_WEBContext();
+            List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+            var List = (from computerDetails in db.ComSeries
+                        
+                        join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
+                        join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
+                        join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId
+                        where newComputer.ComId == modelId
+
+                        orderby newComputer.ComId descending
+                        select new
+                        {
+                            id = computerDetails.ComputerTypeId,
+                            mf = mf.ManufacturersName,
+                            computerSeries = computerDetails.SeriesName,
+                            computeModel = computeModel.ModelName,
+                            computerPrice = newComputer.Price,
+                            description = newComputer.Description,
+                            computerImagePath = newComputer.ImagePath,
+                        }).Take(8);
+
+            foreach (var item in List)
+            {
+                saleComputerDTO dto = new saleComputerDTO();
+                dto.comId = item.id;
+                dto.Mf = item.mf;
+                dto.Series = item.computerSeries;
+                dto.Model = item.computeModel;
+                dto.Description = item.description;
+                dto.Price = (decimal)(item.computerPrice ?? 00);
+                dto.ImagePath = item.computerImagePath;
+                saleComputerDTOs.Add(dto);
+
+            }
+            return saleComputerDTOs;
+        }
     }
 }

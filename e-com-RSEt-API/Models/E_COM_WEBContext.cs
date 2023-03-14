@@ -28,6 +28,7 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<CumputerVga> CumputerVgas { get; set; } = null!;
         public virtual DbSet<CustomerAddressTb> CustomerAddressTbs { get; set; } = null!;
         public virtual DbSet<CustomerDetail> CustomerDetails { get; set; } = null!;
+        public virtual DbSet<CustomerDetail1> CustomerDetails1 { get; set; } = null!;
         public virtual DbSet<HardDriveType> HardDriveTypes { get; set; } = null!;
         public virtual DbSet<LaptopDesktopView> LaptopDesktopViews { get; set; } = null!;
         public virtual DbSet<NewComputer> NewComputers { get; set; } = null!;
@@ -267,6 +268,41 @@ namespace e_com_RSEt_API.Models
 
             modelBuilder.Entity<CustomerDetail>(entity =>
             {
+                entity.HasKey(e => e.CustomerId);
+
+                entity.ToTable("CUSTOMER_DETAIL");
+
+                entity.Property(e => e.CustomerId).HasColumnName("CUSTOMER_ID");
+
+                entity.Property(e => e.CustomerStatus).HasColumnName("CUSTOMER_STATUS");
+
+                entity.Property(e => e.Dob)
+                    .HasColumnType("date")
+                    .HasColumnName("DOB");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("EMAIL");
+
+                entity.Property(e => e.EmailValidate).HasColumnName("EMAIL_VALIDATE");
+
+                entity.Property(e => e.FristName)
+                    .HasMaxLength(50)
+                    .HasColumnName("FRIST_NAME");
+
+                entity.Property(e => e.Gender).HasColumnName("GENDER");
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .HasColumnName("LAST_NAME");
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(20)
+                    .HasColumnName("PASSWORD");
+            });
+
+            modelBuilder.Entity<CustomerDetail1>(entity =>
+            {
                 entity.HasKey(e => e.UserId);
 
                 entity.ToTable("CUSTOMER_DETAILS");
@@ -375,9 +411,6 @@ namespace e_com_RSEt_API.Models
 
                 entity.Property(e => e.States).HasColumnName("STATES");
             });
-
-
-
 
             modelBuilder.Entity<ProductSpacification>(entity =>
             {

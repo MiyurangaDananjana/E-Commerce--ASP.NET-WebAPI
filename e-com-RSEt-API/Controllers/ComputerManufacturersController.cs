@@ -176,5 +176,71 @@ namespace e_com_RSEt_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("buyComputer")]
+        public IActionResult buyComputer(NewComputer model)
+        {
+            int ModelId = model.ComId;
+            try
+            {
+                seleComputerList dto = new seleComputerList();
+                dto = HomeBLL.buyComputer(ModelId);
+                return Ok(dto.saleComputerDTOs);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
+
+        [HttpGet]
+        [Route("getProcessor")]
+        public IActionResult getComputerProcessor()
+        {
+            try
+            {
+                var comProcessor = _dbContext.CumputerProcessors.ToList();
+                return Ok(comProcessor);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
+
+        [HttpGet]
+        [Route("getRam")]
+        public IActionResult getComputerRam()
+        {
+            try
+            {
+                var comRam = _dbContext.CumputerRams.ToList();
+                return Ok(comRam);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
+
+        [HttpGet]
+        [Route("getVga")]
+        public IActionResult getVga()
+        {
+            try
+            {
+                var comVga = _dbContext.CumputerVgas.ToList();
+                return Ok(comVga);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
+
     }
 }
