@@ -36,7 +36,7 @@ namespace e_com_RSEt_API.Controllers
                 dto.LastName = customerDetail.LastName;
                 dto.Email = customerDetail.Email;
                 dto.EmailValidate = Convert.ToInt32(1);
-                dto.Gender= customerDetail.Gender;
+               // dto.Gender= customerDetail.Gender;
                 dto.Dob = customerDetail.Dob;
                 dto.Password= customerDetail.Password;
                 dto.CustomerStatus = Convert.ToInt32(1);            
@@ -63,8 +63,10 @@ namespace e_com_RSEt_API.Controllers
                 else
                 {
                     return Ok(new JWTService(_config).GenerateToken(
-                       customerCheck.CustomerId.ToString()
-                       ));
+                       customerCheck.CustomerId.ToString(),
+                       customerCheck.FristName ?? ""
+
+                       )) ;
                 }
             }
         }

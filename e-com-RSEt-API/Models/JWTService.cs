@@ -17,21 +17,16 @@ namespace e_com_RSEt_API.Models
             config = _config;
             this.SecretKey = config.GetSection("jwtConfig").GetSection("key").Value;
             this.TokenDuration = Int32.Parse(config.GetSection("jwtConfig").GetSection("Duration").Value);
-
         }
-
-        public String GenerateToken(String customerId)
+        public String GenerateToken(String customerId, String FristName)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.SecretKey));
             var signature = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
             var Pay_Load = new[]
             {
-
                   new Claim("customerId",customerId ),
-
+                  new Claim("FristName",FristName )
             };
-
             var jwtToken = new JwtSecurityToken(
                 issuer: "localhost",
                 audience: "localhost",

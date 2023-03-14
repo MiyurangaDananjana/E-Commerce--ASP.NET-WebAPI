@@ -173,12 +173,10 @@ namespace e_com_RSEt_API.Controllers
                 if (checkAdmin != null)
                 {
                     return Ok("Success");
-
                 }
                 else
                 {
                     return Ok("Error");
-
                 }
             }
         }
@@ -307,7 +305,6 @@ namespace e_com_RSEt_API.Controllers
                 dto.Description= newComputer.Description;
                 dto.Price  = newComputer.Price;
                 dto.ImagePath= newComputer.ImagePath;
-
                 homeBLL.addNewComputer(dto);
                 return Ok("Success");
             }
