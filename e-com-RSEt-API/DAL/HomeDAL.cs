@@ -109,7 +109,7 @@ namespace e_com_RSEt_API.DAL
                        orderby newComputer.ComId descending
                        select new
                        {
-                           id = computerDetails.ComputerTypeId,
+                           id = newComputer.ComId,
                            mf = mf.ManufacturersName,
                            computerSeries = computerDetails.SeriesName,
                            computeModel = computeModel.ModelName,
@@ -147,7 +147,7 @@ namespace e_com_RSEt_API.DAL
                         orderby newComputer.ComId descending
                         select new
                         {
-                            id = computerDetails.ComputerTypeId,
+                            id = newComputer.ComId,
                             mf = mf.ManufacturersName,
                             computerSeries = computerDetails.SeriesName,
                             computeModel = computeModel.ModelName,
@@ -184,7 +184,7 @@ namespace e_com_RSEt_API.DAL
                         orderby newComputer.ComId descending
                         select new
                         {
-                            id = computerDetails.ComputerTypeId,
+                            id = newComputer.ComId,
                             mf = mf.ManufacturersName,
                             computerSeries = computerDetails.SeriesName,
                             computeModel = computeModel.ModelName,
@@ -222,7 +222,7 @@ namespace e_com_RSEt_API.DAL
                         orderby newComputer.ComId descending
                         select new
                         {
-                            id = computerDetails.ComputerTypeId,
+                            id = newComputer.ComId,
                             mf = mf.ManufacturersName,
                             computerSeries = computerDetails.SeriesName,
                             computeModel = computeModel.ModelName,
@@ -260,7 +260,7 @@ namespace e_com_RSEt_API.DAL
                         orderby newComputer.ComId descending
                         select new
                         {
-                            id = computerDetails.ComputerTypeId,
+                            id = newComputer.ComId,
                             mf = mf.ManufacturersName,
                             computerSeries = computerDetails.SeriesName,
                             computeModel = computeModel.ModelName,
@@ -289,8 +289,7 @@ namespace e_com_RSEt_API.DAL
         {
             E_COM_WEBContext db = new E_COM_WEBContext();
             List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
-            var List = (from computerDetails in db.ComSeries
-                        
+            var List = (from computerDetails in db.ComSeries                        
                         join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
                         join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
                         join newComputer in db.NewComputers on computeModel.ModelId equals newComputer.ModelId
@@ -299,7 +298,7 @@ namespace e_com_RSEt_API.DAL
                         orderby newComputer.ComId descending
                         select new
                         {
-                            id = computerDetails.ComputerTypeId,
+                            id = newComputer.ComId,
                             mf = mf.ManufacturersName,
                             computerSeries = computerDetails.SeriesName,
                             computeModel = computeModel.ModelName,

@@ -21,6 +21,7 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<ComModel> ComModels { get; set; } = null!;
         public virtual DbSet<ComSeries> ComSeries { get; set; } = null!;
         public virtual DbSet<ComputerManufacturer> ComputerManufacturers { get; set; } = null!;
+        public virtual DbSet<ComputerO> ComputerOs { get; set; } = null!;
         public virtual DbSet<ComputerType> ComputerTypes { get; set; } = null!;
         public virtual DbSet<CumputerHard> CumputerHards { get; set; } = null!;
         public virtual DbSet<CumputerProcessor> CumputerProcessors { get; set; } = null!;
@@ -134,6 +135,23 @@ namespace e_com_RSEt_API.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("MANUFACTURERS_NAME");
+            });
+
+            modelBuilder.Entity<ComputerO>(entity =>
+            {
+                entity.HasKey(e => e.OsId);
+
+                entity.ToTable("COMPUTER_OS");
+
+                entity.Property(e => e.OsId).HasColumnName("OS_ID");
+
+                entity.Property(e => e.OsName)
+                    .HasMaxLength(50)
+                    .HasColumnName("OS_NAME");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("PRICE");
             });
 
             modelBuilder.Entity<ComputerType>(entity =>

@@ -242,5 +242,20 @@ namespace e_com_RSEt_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getOS")]
+        public async Task<ActionResult<List<ComputerO>>> GetComputerOs()
+        {
+            try
+            {
+                var os = await _dbContext.ComputerOs.ToListAsync();
+                return Ok(os);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
     }
 }
+  

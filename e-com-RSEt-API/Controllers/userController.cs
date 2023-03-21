@@ -1,5 +1,6 @@
 ﻿using e_com_RSEt_API.BLL;
 using e_com_RSEt_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ namespace e_com_RSEt_API.Controllers
         {
             if (customerDetail == null)
             {
-                return Ok("Error");
+                return NotFound();
             }
             else
             {
@@ -51,7 +52,7 @@ namespace e_com_RSEt_API.Controllers
         {
             if(customerDetail == null)
             {
-                return Ok("Not Found");
+                return NotFound();
             }
             else
             {
@@ -68,6 +69,30 @@ namespace e_com_RSEt_API.Controllers
 
                        )) ;
                 }
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("getUserAddress/{id}")]
+      
+        public IActionResult getUserAddress(int id)
+        {
+            try
+            {   
+                var addresses = dbContext.CustomerAddressTbs.Where(a => a.CustomerCode == id).ToList();
+
+                if (addresses.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                return Ok(addresses);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving the address. Please try again later.");
             }
         }
 
