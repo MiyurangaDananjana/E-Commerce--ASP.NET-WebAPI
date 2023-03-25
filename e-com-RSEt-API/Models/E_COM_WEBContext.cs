@@ -23,6 +23,7 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<ComputerManufacturer> ComputerManufacturers { get; set; } = null!;
         public virtual DbSet<ComputerO> ComputerOs { get; set; } = null!;
         public virtual DbSet<ComputerType> ComputerTypes { get; set; } = null!;
+        public virtual DbSet<CopmOder> CopmOders { get; set; } = null!;
         public virtual DbSet<CumputerHard> CumputerHards { get; set; } = null!;
         public virtual DbSet<CumputerProcessor> CumputerProcessors { get; set; } = null!;
         public virtual DbSet<CumputerRam> CumputerRams { get; set; } = null!;
@@ -164,6 +165,41 @@ namespace e_com_RSEt_API.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("COMPUTER_TYPE");
+            });
+
+            modelBuilder.Entity<CopmOder>(entity =>
+            {
+                entity.HasKey(e => e.OrderId);
+
+                entity.ToTable("COPM_ODER");
+
+                entity.Property(e => e.OrderId).HasColumnName("ORDER_ID");
+
+                entity.Property(e => e.AntivirusGrdId).HasColumnName("ANTIVIRUS_GRD_ID");
+
+                entity.Property(e => e.ApprovedBy).HasColumnName("APPROVED_BY");
+
+                entity.Property(e => e.BullingAddressId).HasColumnName("BULLING_ADDRESS_ID");
+
+                entity.Property(e => e.CusId).HasColumnName("CUS_ID");
+
+                entity.Property(e => e.OderDate)
+                    .HasColumnType("date")
+                    .HasColumnName("ODER_DATE");
+
+                entity.Property(e => e.OderStatus).HasColumnName("ODER_STATUS");
+
+                entity.Property(e => e.OsId).HasColumnName("OS_ID");
+
+                entity.Property(e => e.ProcessorId).HasColumnName("PROCESSOR_ID");
+
+                entity.Property(e => e.RamId).HasColumnName("RAM_ID");
+
+                entity.Property(e => e.ShipingAddressId).HasColumnName("SHIPING_ADDRESS_ID");
+
+                entity.Property(e => e.ShipingMethod).HasColumnName("SHIPING_METHOD");
+
+                entity.Property(e => e.VgaId).HasColumnName("VGA_ID");
             });
 
             modelBuilder.Entity<CumputerHard>(entity =>

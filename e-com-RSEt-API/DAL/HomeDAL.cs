@@ -30,7 +30,6 @@ namespace e_com_RSEt_API.DAL
 
         public void saveAdminUser(AdminLogin dto)
         {
-
             _db.AdminLogins.Add(dto);
             _db.SaveChanges();
         }
@@ -204,7 +203,6 @@ namespace e_com_RSEt_API.DAL
                 dto.Price = (decimal)(item.computerPrice ?? 00);
                 dto.ImagePath = item.computerImagePath;
                 saleComputerDTOs.Add(dto);
-
             }
             return saleComputerDTOs;
         }
@@ -242,7 +240,6 @@ namespace e_com_RSEt_API.DAL
                 dto.Price = (decimal)(item.computerPrice ?? 00);
                 dto.ImagePath = item.computerImagePath;
                 saleComputerDTOs.Add(dto);
-
             }
             return saleComputerDTOs;
         }
@@ -280,7 +277,6 @@ namespace e_com_RSEt_API.DAL
                 dto.Price = (decimal)(item.computerPrice ?? 00);
                 dto.ImagePath = item.computerImagePath;
                 saleComputerDTOs.Add(dto);
-
             }
             return saleComputerDTOs;
         }
@@ -318,9 +314,14 @@ namespace e_com_RSEt_API.DAL
                 dto.Price = (decimal)(item.computerPrice ?? 00);
                 dto.ImagePath = item.computerImagePath;
                 saleComputerDTOs.Add(dto);
-
             }
             return saleComputerDTOs;
+        }
+
+        internal void AddNewComputerReq(CopmOder dto)
+        {
+            _db.CopmOders.Add(dto);
+            _db.SaveChanges();
         }
     }
 }

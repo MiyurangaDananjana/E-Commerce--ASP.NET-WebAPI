@@ -256,6 +256,38 @@ namespace e_com_RSEt_API.Controllers
                 return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
             }
         }
+
+        [HttpGet]
+        [Route("getAntivirus")]
+        public async Task<ActionResult<List<AntivirusGard>>> getAntivirus()
+        {
+            try
+            {
+                var os = await _dbContext.AntivirusGards.ToListAsync();
+                return Ok(os);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
+
+        [HttpGet]
+        [Route("getShipingMethod")]
+        public async Task<ActionResult<List<ShipingMethod>>> getShipingMethod()
+        {
+            try
+            {
+                var shipingMethod = await _dbContext.ShipingMethods.ToListAsync();
+                return Ok(shipingMethod);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+            }
+        }
+
+      
     }
 }
   

@@ -1,6 +1,7 @@
 ﻿
 using e_com_RSEt_API.BLL;
 using e_com_RSEt_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -308,6 +309,36 @@ namespace e_com_RSEt_API.Controllers
                 homeBLL.addNewComputer(dto);
                 return Ok("Success");
             }
+        }
+
+        [HttpPost]
+        [Route("computerReq")]
+        [Authorize]
+        public IActionResult custometComReq(CopmOder copm)
+        {
+            if (copm == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var homeBLL = new HomeBLL(dbContext);
+                CopmOder dto = new CopmOder();
+                dto.CusId = copm.CusId;
+                dto.ProcessorId = copm.ProcessorId;
+                dto.RamId = copm.RamId;
+                dto.VgaId = copm.VgaId;
+                dto.OsId = copm.OsId;
+                dto.AntivirusGrdId = copm.AntivirusGrdId;
+                dto.ShipingAddressId = copm.ShipingAddressId;
+                dto.BullingAddressId = copm.BullingAddressId;
+                dto.ShipingMethod = copm.ShipingMethod;
+                dto.OderDate = DateTime.Today;
+                dto.OderStatus = Convert.ToInt32(1);
+                homeBLL.AddNewComputerReq(dto);
+                return Ok("Success");
+            }
+
         }
     }
 }

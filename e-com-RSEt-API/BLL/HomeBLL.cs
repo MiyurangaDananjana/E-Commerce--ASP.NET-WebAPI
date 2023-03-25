@@ -133,5 +133,12 @@ namespace e_com_RSEt_API.BLL
             dto.saleComputerDTOs = HomeDAL.buyComputer(modelId);
             return dto;
         }
+
+        internal void AddNewComputerReq(CopmOder dto)
+        {
+            HomeDAL homeDAL = new HomeDAL(_db);
+            homeDAL.AddNewComputerReq(dto);
+
+        }
     }
 }
