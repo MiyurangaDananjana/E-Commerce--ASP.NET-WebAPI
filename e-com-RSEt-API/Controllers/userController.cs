@@ -3,6 +3,8 @@ using e_com_RSEt_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 
 namespace e_com_RSEt_API.Controllers
 {
@@ -97,7 +99,25 @@ namespace e_com_RSEt_API.Controllers
         }
 
 
-
+        //public IActionResult email(EmailAddressAttribute)
+        //{
+        //    MailMessage mail = new MailMessage();
+        //    mail.To.Add(EmailTo);
+        //    mail.From = new MailAddress("miyuranga.athugala@gmail.com");
+        //    mail.Subject = "INVOICE";
+        //    string Body = "Your payment invoice attached here";
+        //    mail.Body = Body;
+        //    Attachment at = new Attachment(serverpath);
+        //    mail.Attachments.Add(at);
+        //    mail.IsBodyHtml = true;
+        //    SmtpClient smtp = new SmtpClient();
+        //    smtp.Host = "smtp.gmail.com";
+        //    smtp.Port = 587;
+        //    smtp.UseDefaultCredentials = false;
+        //    smtp.Credentials = new System.Net.NetworkCredential(EmailCredential, EmailPassword); // Enter seders User name and password  
+        //    smtp.EnableSsl = true;
+        //    smtp.Send(mail);
+        //}
 
     }
 }

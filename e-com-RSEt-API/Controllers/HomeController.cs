@@ -338,7 +338,6 @@ namespace e_com_RSEt_API.Controllers
                 homeBLL.AddNewComputerReq(dto);
                 return Ok("Success");
             }
-
         }
     }
 }

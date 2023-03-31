@@ -100,7 +100,9 @@ namespace e_com_RSEt_API.DAL
         internal static List<saleComputerDTO> GetComputerDetails()
         {
             E_COM_WEBContext db = new E_COM_WEBContext();
+
             List<saleComputerDTO> saleComputerDTOs = new List<saleComputerDTO>();
+
             var List =( from computerDetails in db.ComSeries
                        join mf in db.ComputerManufacturers on computerDetails.MfId equals mf.ManufacturersId
                        join computeModel in db.ComModels on computerDetails.SeriesId equals computeModel.SeriesId
@@ -116,6 +118,7 @@ namespace e_com_RSEt_API.DAL
                            description = newComputer.Description,
                            computerImagePath = newComputer.ImagePath,
                        }).Take(8);
+
 
             foreach (var item in List)
             {

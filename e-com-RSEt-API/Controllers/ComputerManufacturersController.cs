@@ -136,7 +136,7 @@ namespace e_com_RSEt_API.Controllers
             catch (Exception)
             {
 
-                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+                return StatusCode(500, "An error occurred while retrieving computer Series. Please try again later.");
             }
         }
 
