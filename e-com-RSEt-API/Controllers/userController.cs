@@ -13,111 +13,63 @@ namespace e_com_RSEt_API.Controllers
     public class userController : ControllerBase
     {
 
-        private readonly E_COM_WEBContext dbContext;
-        private readonly IConfiguration _config;
+        private readonly E_COM_WEBContext _context;
+        private readonly IConfiguration _configuration;
 
-        public userController(E_COM_WEBContext context, IConfiguration config)
+        public userController(E_COM_WEBContext context, IConfiguration configuration)
         {
-            dbContext = context;
-            _config = config;   
+            _context = context;
+            _configuration = configuration;
         }
 
-        //save customer details to CUSTOMER_DETIL Tb
+        /*Admin details insert*/
         [HttpPost]
-        [Route("set-customer")]
-        public IActionResult saveCustomerDetails(CustomerDetail customerDetail)
+        [Route("saveAdminUser")]
+        public IActionResult addNewAdminUser(AdminLogin adminLogin)
         {
-            if (customerDetail == null)
+            if (adminLogin == null)
             {
-                return NotFound();
+                return Ok("Error");
             }
             else
             {
-                var homeBLL = new HomeBLL(dbContext);
-                CustomerDetail dto = new CustomerDetail();
-                dto.FristName = customerDetail.FristName;
-                dto.LastName = customerDetail.LastName;
-                dto.Email = customerDetail.Email;
-                dto.EmailValidate = Convert.ToInt32(1);
-               // dto.Gender= customerDetail.Gender;
-                dto.Dob = customerDetail.Dob;
-                dto.Password= customerDetail.Password;
-                dto.CustomerStatus = Convert.ToInt32(1);            
-                homeBLL.saveCustomer(dto);
-                return Ok("SaveCustomer");
+                var homeBLL = new HomeBLL(_context);
+                AdminLogin dto = new AdminLogin();
+                dto.FullName = adminLogin.FullName;
+                dto.PhoneNumber = adminLogin.PhoneNumber;
+                dto.Dob = adminLogin.Dob;
+                dto.UserName = adminLogin.UserName;
+                dto.Password = adminLogin.Password;
+                homeBLL.addNewAdmin(dto);
+                return Ok("success");
             }
-
         }
 
-        [HttpPost("authenticate")]
-        public IActionResult Authentication(CustomerDetail customerDetail)
+
+        /*Admin login check*/
+        [HttpPost]
+        [Route("adminLogin")]
+        public IActionResult chackAdminLogin(AdminLogin adminLogin)
         {
-            if(customerDetail == null)
+            if (adminLogin == null)
             {
-                return NotFound();
+                return Ok("Error");
             }
             else
             {
-                var customerCheck = dbContext.CustomerDetails.Where(x=>x.Email== customerDetail.Email && x.Password == customerDetail.Password).FirstOrDefault();
-                if (customerCheck == null)
+                E_COM_WEBContext db = new E_COM_WEBContext();
+                var checkAdmin = db.AdminLogins.Where(x => x.UserName == adminLogin.UserName && x.Password == adminLogin.Password).FirstOrDefault();
+                if (checkAdmin != null)
                 {
-                    return Ok("Error");
+                    return Ok("Success");
                 }
                 else
                 {
-                    return Ok(new JWTService(_config).GenerateToken(
-                       customerCheck.CustomerId.ToString(),
-                       customerCheck.FristName ?? ""
-
-                       )) ;
+                    return Ok("Error");
                 }
             }
         }
 
-
-
-        [HttpGet]
-        [Route("getUserAddress/{id}")]
-      
-        public IActionResult getUserAddress(int id)
-        {
-            try
-            {   
-                var addresses = dbContext.CustomerAddressTbs.Where(a => a.CustomerCode == id).ToList();
-
-                if (addresses.Count == 0)
-                {
-                    return NotFound();
-                }
-
-                return Ok(addresses);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while retrieving the address. Please try again later.");
-            }
-        }
-
-
-        //public IActionResult email(EmailAddressAttribute)
-        //{
-        //    MailMessage mail = new MailMessage();
-        //    mail.To.Add(EmailTo);
-        //    mail.From = new MailAddress("miyuranga.athugala@gmail.com");
-        //    mail.Subject = "INVOICE";
-        //    string Body = "Your payment invoice attached here";
-        //    mail.Body = Body;
-        //    Attachment at = new Attachment(serverpath);
-        //    mail.Attachments.Add(at);
-        //    mail.IsBodyHtml = true;
-        //    SmtpClient smtp = new SmtpClient();
-        //    smtp.Host = "smtp.gmail.com";
-        //    smtp.Port = 587;
-        //    smtp.UseDefaultCredentials = false;
-        //    smtp.Credentials = new System.Net.NetworkCredential(EmailCredential, EmailPassword); // Enter seders User name and password  
-        //    smtp.EnableSsl = true;
-        //    smtp.Send(mail);
-        //}
 
     }
 }

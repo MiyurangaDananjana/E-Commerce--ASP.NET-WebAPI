@@ -5,16 +5,11 @@ F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\e-com-RSEt-API.deps
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\e-com-RSEt-API.runtimeconfig.json
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\e-com-RSEt-API.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\e-com-RSEt-API.pdb
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\Microsoft.OpenApi.dll
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.csproj.AssemblyReference.cache
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.GeneratedMSBuildEditorConfig.editorconfig
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.AssemblyInfoInputs.cache
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.AssemblyInfo.cs
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.csproj.CoreCompileInputs.cache
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.MvcApplicationPartsAssemblyInfo.cs
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\e-com-RSEt-API.MvcApplicationPartsAssemblyInfo.cache
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\staticwebassets\msbuild.e-com-RSEt-API.Microsoft.AspNetCore.StaticWebAssets.props
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\obj\Debug\net6.0\staticwebassets\msbuild.build.e-com-RSEt-API.props
@@ -62,8 +57,6 @@ F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win-arm64\
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\AutoMapper.dll
-F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\MessagePack.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\MessagePack.Annotations.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\Microsoft.AspNetCore.Razor.Language.dll
@@ -284,3 +277,4 @@ F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win-x86\na
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\AD-Project\e-com-RSEt-API\e-com-RSEt-API\bin\Debug\net6.0\libman.json
