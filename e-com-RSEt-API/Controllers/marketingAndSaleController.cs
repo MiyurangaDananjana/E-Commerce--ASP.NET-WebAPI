@@ -8,13 +8,13 @@ namespace e_com_RSEt_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class marketingAndSale : ControllerBase
+    public class marketingAndSaleController : ControllerBase
     {
 
         private readonly E_COM_WEBContext _context;
         private readonly IConfiguration _configuration;
 
-        public marketingAndSale(E_COM_WEBContext context, IConfiguration configuration)
+        public marketingAndSaleController(E_COM_WEBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
@@ -45,6 +45,24 @@ namespace e_com_RSEt_API.Controllers
                 dto.OderStatus = Convert.ToInt32(1);
                 homeBLL.AddNewComputerReq(dto);
                 return Ok("Success");
+            }
+        }
+
+        [HttpPost]
+        [Route("buyComputer")]
+        public IActionResult buyComputer(NewComputer model)
+        {
+            int ModelId = model.ComId;
+            try
+            {
+                seleComputerList dto = new seleComputerList();
+                dto = HomeBLL.buyComputer(ModelId);
+                return Ok(dto.saleComputerDTOs);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
             }
         }
     }

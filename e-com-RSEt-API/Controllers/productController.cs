@@ -288,7 +288,7 @@ namespace e_com_RSEt_API.Controllers
             }
         }
         [HttpPost]
-        [Route("oderByModels")]
+        [Route("orderByModels")]
         public IActionResult oderByModels(ComModel model)
         {
             int ModelId = model.ModelId;
@@ -341,23 +341,7 @@ namespace e_com_RSEt_API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("buyComputer")]
-        public IActionResult buyComputer(NewComputer model)
-        {
-            int ModelId = model.ComId;
-            try
-            {
-                seleComputerList dto = new seleComputerList();
-                dto = HomeBLL.buyComputer(ModelId);
-                return Ok(dto.saleComputerDTOs);
-            }
-            catch (Exception)
-            {
-
-                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
-            }
-        }
+       
 
         [HttpGet]
         [Route("getProcessor")]
