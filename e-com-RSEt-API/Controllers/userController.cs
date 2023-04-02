@@ -13,10 +13,10 @@ namespace e_com_RSEt_API.Controllers
     public class userController : ControllerBase
     {
 
-        private readonly E_COM_WEBContext _context;
+        private readonly M_SHOP_DBContext _context;
         private readonly IConfiguration _configuration;
 
-        public userController(E_COM_WEBContext context, IConfiguration configuration)
+        public userController(M_SHOP_DBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
@@ -33,14 +33,14 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
+                var newUser = new User_BLL(_context);
                 AdminLogin dto = new AdminLogin();
                 dto.FullName = adminLogin.FullName;
                 dto.PhoneNumber = adminLogin.PhoneNumber;
                 dto.Dob = adminLogin.Dob;
                 dto.UserName = adminLogin.UserName;
                 dto.Password = adminLogin.Password;
-                homeBLL.addNewAdmin(dto);
+                newUser.addNewAdmin(dto);
                 return Ok("success");
             }
         }
@@ -57,7 +57,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                E_COM_WEBContext db = new E_COM_WEBContext();
+                M_SHOP_DBContext db = new M_SHOP_DBContext();
                 var checkAdmin = db.AdminLogins.Where(x => x.UserName == adminLogin.UserName && x.Password == adminLogin.Password).FirstOrDefault();
                 if (checkAdmin != null)
                 {

@@ -5,14 +5,18 @@ namespace e_com_RSEt_API.Models
 {
     public partial class CustomerDetail
     {
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
         public string? FristName { get; set; }
         public string? LastName { get; set; }
         public string? Email { get; set; }
-        public int? EmailValidate { get; set; }
-        public int? Gender { get; set; }
-        public DateTime? Dob { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? UserName { get; set; }
         public string? Password { get; set; }
-        public int? CustomerStatus { get; set; }
+        public int? Statest { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public int? LogInOut { get; set; }
+        public DateTime? LastLoginTime { get; set; }
+        public int? EmailValidate { get; set; }
+        public DateTime? Dob { get; set; }
     }
 }

@@ -11,10 +11,10 @@ namespace e_com_RSEt_API.Controllers
     public class marketingAndSaleController : ControllerBase
     {
 
-        private readonly E_COM_WEBContext _context;
+        private readonly M_SHOP_DBContext _context;
         private readonly IConfiguration _configuration;
 
-        public marketingAndSaleController(E_COM_WEBContext context, IConfiguration configuration)
+        public marketingAndSaleController(M_SHOP_DBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
@@ -22,7 +22,7 @@ namespace e_com_RSEt_API.Controllers
         [HttpPost]
         [Route("computerReq")]
         [Authorize]
-        public IActionResult custometComReq(CopmOder copm)
+        public IActionResult custometComReq(ComputerOder copm)
         {
             if (copm == null)
             {
@@ -30,8 +30,8 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
-                CopmOder dto = new CopmOder();
+                var homeBLL = new MarketingAndSale_BLL(_context);
+                ComputerOder dto = new ComputerOder();
                 dto.CusId = copm.CusId;
                 dto.ProcessorId = copm.ProcessorId;
                 dto.RamId = copm.RamId;
@@ -56,7 +56,7 @@ namespace e_com_RSEt_API.Controllers
             try
             {
                 seleComputerList dto = new seleComputerList();
-                dto = HomeBLL.buyComputer(ModelId);
+                dto = Product_BLL.buyComputer(ModelId);
                 return Ok(dto.saleComputerDTOs);
             }
             catch (Exception)

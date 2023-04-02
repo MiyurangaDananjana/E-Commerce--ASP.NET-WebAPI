@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<E_COM_WEBContext>(options =>
+builder.Services.AddDbContext<M_SHOP_DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbConnection")));
 
 builder.Services.AddCors(option =>

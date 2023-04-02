@@ -9,10 +9,10 @@ namespace e_com_RSEt_API.Controllers
     [ApiController]
     public class customerController : ControllerBase
     {
-        private readonly E_COM_WEBContext _context;
+        private readonly M_SHOP_DBContext _context;
         private readonly IConfiguration _configuration;
 
-        public customerController(E_COM_WEBContext context, IConfiguration configuration)
+        public customerController(M_SHOP_DBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
@@ -51,7 +51,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
+                var homeBLL = new Customer_BLL(_context);
                 CustomerAddressTb dto = new CustomerAddressTb();
                 dto.CustomerCode = customerAddressTb.CustomerCode;
                 dto.AddressLine1 = customerAddressTb.AddressLine1;
@@ -72,22 +72,28 @@ namespace e_com_RSEt_API.Controllers
             {
                 return NotFound();
             }
+
+            // check the password is null and return badreq
+            if(string.IsNullOrEmpty(customerDetail.Password))
+            {
+                return BadRequest("Password is required");
+            }
             else
             {
-                var homeBLL = new HomeBLL(_context);
+                var homeBLL = new Customer_BLL(_context);
                 CustomerDetail dto = new CustomerDetail();
                 dto.FristName = customerDetail.FristName;
                 dto.LastName = customerDetail.LastName;
                 dto.Email = customerDetail.Email;
                 dto.EmailValidate = Convert.ToInt32(1);
                 // dto.Gender= customerDetail.Gender;
+                dto.Statest = 1;
+                dto.CreateDate = DateTime.Now;
                 dto.Dob = customerDetail.Dob;
-                dto.Password = customerDetail.Password;
-                dto.CustomerStatus = Convert.ToInt32(1);
+                dto.Password = general.hashPassword(customerDetail.Password);
                 homeBLL.saveCustomer(dto);
                 return Ok("SaveCustomer");
             }
-
         }
 
 

@@ -10,37 +10,37 @@ namespace e_com_RSEt_API.Controllers
     [ApiController]
     public class productController : ControllerBase
     {
-        private readonly E_COM_WEBContext _context;
+        private readonly M_SHOP_DBContext _context;
         private readonly IConfiguration _configuration;
 
-        public productController(E_COM_WEBContext context, IConfiguration configuration)
+        public productController(M_SHOP_DBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
         }
 
-        [HttpPost]
-        [Route("setAntivirus")]
-        public IActionResult saveAntivirus(AntivirusGard antivirusGard)
-        {
-            if (antivirusGard == null)
-            {
-                return Ok("Error");
-            }
-            else
-            {
-                var homeBLL = new HomeBLL(_context);
-                AntivirusGard antivirus = new AntivirusGard();
-                antivirus.AntivirusName = antivirusGard.AntivirusName;
-                antivirus.Price = antivirusGard.Price;
-                homeBLL.saveAntivirusGard(antivirus);
-                return Ok("Save Success");
-            }
-        }
+        //[HttpPost]
+        //[Route("setAntivirus")]
+        //public IActionResult saveAntivirus(AntivirusGard antivirusGard)
+        //{
+        //    if (antivirusGard == null)
+        //    {
+        //        return Ok("Error");
+        //    }
+        //    else
+        //    {
+        //        var homeBLL = new HomeBLL(_context);
+        //        AntivirusGard antivirus = new AntivirusGard();
+        //        antivirus.AntivirusName = antivirusGard.AntivirusName;
+        //        antivirus.Price = antivirusGard.Price;
+        //        homeBLL.saveAntivirusGard(antivirus);
+        //        return Ok("Save Success");
+        //    }
+        //}
 
         [HttpPost]
         [Route("save-hard-drive")]
-        public IActionResult addNewHardDrive(CumputerHard hardDrive)
+        public IActionResult addNewHardDrive(ComputerHard hardDrive)
         {
             if (hardDrive == null)
             {
@@ -48,8 +48,8 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
-                CumputerHard dto = new CumputerHard();
+                var homeBLL = new Product_BLL(_context);
+                ComputerHard dto = new ComputerHard();
                 dto.HardName = hardDrive.HardName;
                 dto.Capacity = hardDrive.Capacity;
                 dto.Type = hardDrive.Type;
@@ -61,7 +61,7 @@ namespace e_com_RSEt_API.Controllers
 
         [HttpPost]
         [Route("saveNewProcessor")]
-        public IActionResult addNewProcessor(CumputerProcessor processorTyp)
+        public IActionResult addNewProcessor(ComputerProcessor processorTyp)
         {
             if (processorTyp == null)
             {
@@ -69,8 +69,8 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
-                CumputerProcessor dto = new CumputerProcessor();
+                var homeBLL = new Product_BLL(_context);
+                ComputerProcessor dto = new ComputerProcessor();
                 dto.ProcessorName = processorTyp.ProcessorName;
                 dto.Capacity = processorTyp.Capacity;
                 dto.PriceDouble = processorTyp.PriceDouble;
@@ -90,7 +90,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
+                var homeBLL = new Product_BLL(_context);
                 ProductSpacification dto = new ProductSpacification();
                 dto.Name = productSpacification.Name;
                 dto.ComouterType = productSpacification.ComouterType;
@@ -110,7 +110,7 @@ namespace e_com_RSEt_API.Controllers
         /*RAM INSERT*/
         [HttpPost]
         [Route("saveCusRam")]
-        public IActionResult addNewRam(CumputerRam cumputerRam)
+        public IActionResult addNewRam(ComputerRam cumputerRam)
         {
             if (cumputerRam == null)
             {
@@ -118,8 +118,8 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
-                CumputerRam dto = new CumputerRam();
+                var homeBLL = new Product_BLL(_context);
+                ComputerRam dto = new ComputerRam();
                 dto.RamName = cumputerRam.RamName;
                 dto.Capacity = cumputerRam.Capacity;
                 dto.Price = cumputerRam.Price;
@@ -130,7 +130,7 @@ namespace e_com_RSEt_API.Controllers
         /*VGA INSERT*/
         [HttpPost]
         [Route("addNewVGA")]
-        public IActionResult addNewVga(CumputerVga cumputerVga)
+        public IActionResult addNewVga(ComputerVga cumputerVga)
         {
             if (cumputerVga == null)
             {
@@ -138,8 +138,8 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
-                CumputerVga dto = new CumputerVga();
+                var homeBLL = new Product_BLL(_context);
+                ComputerVga dto = new ComputerVga();
                 dto.VgaName = cumputerVga.VgaName;
                 dto.Capacity = cumputerVga.Capacity;
                 dto.Price = cumputerVga?.Price;
@@ -159,7 +159,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
+                var homeBLL = new Product_BLL(_context);
                 LaptopDesktopView dto = new LaptopDesktopView();
                 dto.Manufacture = laptopDesktopView.Manufacture;
                 dto.Model = laptopDesktopView.Model;
@@ -183,7 +183,7 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
+                var homeBLL = new Product_BLL(_context);
                 ComSeries dto = new ComSeries();
                 dto.SeriesName = comSeries.SeriesName;
                 dto.MfId = comSeries.MfId;
@@ -195,7 +195,7 @@ namespace e_com_RSEt_API.Controllers
         /*add new computer series*/
         [HttpPost]
         [Route("newModel")]
-        public IActionResult addNewModel(ComModel comModel)
+        public IActionResult addNewModel(ComputreModel comModel)
         {
             if (comModel == null)
             {
@@ -204,8 +204,8 @@ namespace e_com_RSEt_API.Controllers
             }
             else
             {
-                var homeBLL = new HomeBLL(_context);
-                ComModel dto = new ComModel();
+                var homeBLL = new Product_BLL(_context);
+                ComputreModel dto = new ComputreModel();
                 dto.ModelName = comModel.ModelName;
                 dto.SeriesId = comModel.SeriesId;
                 homeBLL.addnewModel(dto);
@@ -262,7 +262,7 @@ namespace e_com_RSEt_API.Controllers
         {
             try
             {
-                var comModels = _context.ComModels.ToList();
+                var comModels = _context.ComputreModels.ToList();
                 return Ok(comModels);
             }
             catch (Exception)
@@ -278,7 +278,7 @@ namespace e_com_RSEt_API.Controllers
             try
             {
                 seleComputerList dto = new seleComputerList();
-                dto = HomeBLL.computerDetails();
+                dto = Product_BLL.computerDetails();
                 return Ok(dto.saleComputerDTOs);
             }
             catch (Exception)
@@ -289,13 +289,13 @@ namespace e_com_RSEt_API.Controllers
         }
         [HttpPost]
         [Route("orderByModels")]
-        public IActionResult oderByModels(ComModel model)
+        public IActionResult oderByModels(ComputreModel model)
         {
             int ModelId = model.ModelId;
             try
             {
                 seleComputerList dto = new seleComputerList();
-                dto = HomeBLL.oderByModels(ModelId);
+                dto = Product_BLL.oderByModels(ModelId);
                 return Ok(dto.saleComputerDTOs);
             }
             catch (Exception)
@@ -312,7 +312,7 @@ namespace e_com_RSEt_API.Controllers
             try
             {
                 seleComputerList dto = new seleComputerList();
-                dto = HomeBLL.oderBySeries(ModelId);
+                dto = Product_BLL.oderBySeries(ModelId);
                 return Ok(dto.saleComputerDTOs);
             }
             catch (Exception)
@@ -331,7 +331,7 @@ namespace e_com_RSEt_API.Controllers
             try
             {
                 seleComputerList dto = new seleComputerList();
-                dto = HomeBLL.oderByComputerType(ModelId);
+                dto = Product_BLL.oderByComputerType(ModelId);
                 return Ok(dto.saleComputerDTOs);
             }
             catch (Exception)
@@ -341,7 +341,7 @@ namespace e_com_RSEt_API.Controllers
             }
         }
 
-       
+
 
         [HttpGet]
         [Route("getProcessor")]
@@ -349,7 +349,7 @@ namespace e_com_RSEt_API.Controllers
         {
             try
             {
-                var comProcessor = _context.CumputerProcessors.ToList();
+                var comProcessor = _context.ComputerProcessors.ToList();
                 return Ok(comProcessor);
             }
             catch (Exception)
@@ -365,7 +365,7 @@ namespace e_com_RSEt_API.Controllers
         {
             try
             {
-                var comRam = _context.CumputerRams.ToList();
+                var comRam = _context.ComputerRams.ToList();
                 return Ok(comRam);
             }
             catch (Exception)
@@ -381,7 +381,7 @@ namespace e_com_RSEt_API.Controllers
         {
             try
             {
-                var comVga = _context.CumputerVgas.ToList();
+                var comVga = _context.ComputerVgas.ToList();
                 return Ok(comVga);
             }
             catch (Exception)
@@ -396,7 +396,7 @@ namespace e_com_RSEt_API.Controllers
         public async Task<ActionResult<List<ComputerO>>> GetComputerOs()
         {
             try
-            {   
+            {
                 var os = await _context.ComputerOs.ToListAsync();
                 return Ok(os);
             }
@@ -406,20 +406,20 @@ namespace e_com_RSEt_API.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("getAntivirus")]
-        public async Task<ActionResult<List<AntivirusGard>>> getAntivirus()
-        {
-            try
-            {
-                var os = await _context.AntivirusGards.ToListAsync();
-                return Ok(os);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
-            }
-        }
+        //[HttpGet]
+        //[Route("getAntivirus")]
+        //public async Task<ActionResult<List<AntivirusGard>>> getAntivirus()
+        //{
+        //    try
+        //    {
+        //        var os = await _context.AntivirusGards.ToListAsync();
+        //        return Ok(os);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return StatusCode(500, "An error occurred while retrieving computer type. Please try again later.");
+        //    }
+        //}
 
         [HttpGet]
         [Route("getShipingMethod")]
