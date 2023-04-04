@@ -23,18 +23,13 @@ namespace e_com_RSEt_API
         {
             string fromMail = "miyuranga.athugala@gmail.com";
             string password = "osrifjrflkkpscox";
-
-            string bodyContent = "<h4>Welcome to our website!</h4><p>Thank you for signing up with us.</p> <a href=\"https://www.example.com\">Click here to visit our website</a>";
-
-
+           
             MailMessage message = new MailMessage();
             message.From = new MailAddress(fromMail);
             message.Subject = Subject ;
             message.To.Add(new MailAddress(Email));
-
-            message.Body = "<html><body>" + bodyContent + "</body></html>" + Body ;
+            message.Body = "<html><body>" + Body + "</body></html>" ;
             message.IsBodyHtml = true;
-
             var smtp = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
@@ -42,6 +37,27 @@ namespace e_com_RSEt_API
                 EnableSsl = true
             };
             smtp.Send(message);
+
+            //// Send email message
+            //try
+            //{
+            //    client.Send(message);
+            //    Console.WriteLine("Email sent successfully.");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Email send failed: " + ex.Message);
+            //}
+        }
+
+
+        //Generate The Random OTP Code 
+        public static int emailConfirmCode()
+        {
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
         }
     }
 }

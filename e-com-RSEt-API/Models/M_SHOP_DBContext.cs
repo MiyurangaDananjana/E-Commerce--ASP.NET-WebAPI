@@ -29,6 +29,7 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<ComputreModel> ComputreModels { get; set; } = null!;
         public virtual DbSet<CustomerAddressTb> CustomerAddressTbs { get; set; } = null!;
         public virtual DbSet<CustomerDetail> CustomerDetails { get; set; } = null!;
+        public virtual DbSet<CustomerEmail> CustomerEmails { get; set; } = null!;
         public virtual DbSet<HardDriveType> HardDriveTypes { get; set; } = null!;
         public virtual DbSet<LaptopDesktopView> LaptopDesktopViews { get; set; } = null!;
         public virtual DbSet<NewComputer> NewComputers { get; set; } = null!;
@@ -313,6 +314,8 @@ namespace e_com_RSEt_API.Models
 
                 entity.Property(e => e.UserId).HasColumnName("USER_ID");
 
+                entity.Property(e => e.ConfiremCode).HasColumnName("CONFIREM_CODE");
+
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("date")
                     .HasColumnName("CREATE_DATE");
@@ -331,6 +334,10 @@ namespace e_com_RSEt_API.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("FRIST_NAME");
+
+                entity.Property(e => e.Ip)
+                    .HasMaxLength(60)
+                    .HasColumnName("IP");
 
                 entity.Property(e => e.LastLoginTime)
                     .HasColumnType("datetime")
@@ -357,6 +364,35 @@ namespace e_com_RSEt_API.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("USER_NAME");
+            });
+
+            modelBuilder.Entity<CustomerEmail>(entity =>
+            {
+                entity.HasKey(e => e.EmailId);
+
+                entity.ToTable("CUSTOMER_EMAIL");
+
+                entity.Property(e => e.EmailId).HasColumnName("EMAIL_ID");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("EMAIL");
+
+                entity.Property(e => e.Message)
+                    .HasMaxLength(100)
+                    .HasColumnName("MESSAGE");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("NAME");
+
+                entity.Property(e => e.Statest).HasColumnName("STATEST");
+
+                entity.Property(e => e.Subject)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("SUBJECT");
             });
 
             modelBuilder.Entity<HardDriveType>(entity =>

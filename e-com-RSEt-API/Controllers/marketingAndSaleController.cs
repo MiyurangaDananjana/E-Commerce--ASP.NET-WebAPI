@@ -19,9 +19,10 @@ namespace e_com_RSEt_API.Controllers
             _context = context;
             _configuration = configuration;
         }
+
+        [Authorize(Roles = "customer")]
         [HttpPost]
-        [Route("computerReq")]
-        [Authorize]
+        [Route("computerReq")]       
         public IActionResult custometComReq(ComputerOder copm)
         {
             if (copm == null)

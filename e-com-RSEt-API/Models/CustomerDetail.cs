@@ -13,10 +13,12 @@ namespace e_com_RSEt_API.Models
         public string? UserName { get; set; }
         public string? Password { get; set; }
         public int? Statest { get; set; }
-        public DateTime? CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public int? LogInOut { get; set; }
         public DateTime? LastLoginTime { get; set; }
         public int? EmailValidate { get; set; }
         public DateTime? Dob { get; set; }
+        public string? Ip { get; set; }
+        public int? ConfiremCode { get; set; }
     }
 }

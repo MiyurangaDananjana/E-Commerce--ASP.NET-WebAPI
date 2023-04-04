@@ -1,7 +1,9 @@
 ﻿using e_com_RSEt_API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace e_com_RSEt_API.Controllers
 {
@@ -31,7 +33,6 @@ namespace e_com_RSEt_API.Controllers
             {
                 return NotFound();
             }
-
             if (string.IsNullOrEmpty(customerDetail.Password))
             {
                 return BadRequest("Password is required");
@@ -46,11 +47,14 @@ namespace e_com_RSEt_API.Controllers
                 // Generate JWT token
                 var token = new JWTService(_configuration).GenerateToken(
                     customerCheck.UserId.ToString(),
-                    customerCheck.FristName ?? ""
+                    customerCheck.FristName ?? "",
+                    "customer"
                 );
                 // Update the record
                 customerCheck.LogInOut = (int)loginStates.loggedIn;
                 customerCheck.LastLoginTime = DateTime.Now;
+                customerCheck.Ip = customerDetail.Ip;
+               
                 _context.SaveChanges();
 
                 //if (customerDetail != null && !string.IsNullOrEmpty(customerDetail.Email))
@@ -63,6 +67,53 @@ namespace e_com_RSEt_API.Controllers
                 return Ok(token);
             }
 
+        }
+
+        [HttpPost("authenticate-admin")]
+        public async Task<ActionResult<string>> Authenticate_admin(AdminLogin adminLogin)
+        {
+            if (adminLogin == null)
+            {
+                return NotFound();
+            }
+
+            if (string.IsNullOrEmpty(adminLogin.Password))
+            {
+                return BadRequest("Password is required");
+            }
+            else
+            {
+                var adminCheck = await _context.AdminLogins.FirstOrDefaultAsync(x => x.UserName == adminLogin.UserName && x.Password == adminLogin.Password);
+                if (adminCheck == null)
+                {
+                    return StatusCode(404, "User Not Found");
+                }
+                // Generate JWT token
+                var token = new JWTService(_configuration).GenerateToken(
+                    adminCheck.AdminId.ToString(),
+                    adminCheck.UserName ?? "",
+                    "admin"
+                );
+                return Ok(token);
+            }
+
+        }
+
+
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("test")]
+        public IActionResult GetCustomerDetails()
+        {
+            return Ok("test");
+        }
+
+        [Authorize(Roles = "customer")]
+        [Authorize]
+        [HttpGet("test2")]
+        public IActionResult GetCustomerDetails2()
+        {
+            return Ok("test");
         }
 
     }
