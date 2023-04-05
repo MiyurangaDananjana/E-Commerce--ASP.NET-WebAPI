@@ -77,7 +77,11 @@ namespace e_com_RSEt_API.Controllers
             // check the password is null and return badreq
             if (string.IsNullOrEmpty(customerDetail.Password)) { return BadRequest("Password is required"); }
             bool emailExists = _context.CustomerDetails.Any(x => x.Email == customerDetail.Email); // check the email already have or no
-            if (emailExists) { return StatusCode((int)HttpStatusCode.AlreadyReported); };
+            if (emailExists)
+            {
+                string errorMessage = $"Email address '{customerDetail.Email}' already exists.";
+                return StatusCode(StatusCodes.Status409Conflict, errorMessage); // return a 409 status code and a detailed error message
+            };
             int emailConfirmCode = general.emailConfirmCode();
             var homeBLL = new Customer_BLL(_context);
             var dto = new CustomerDetail
@@ -85,7 +89,6 @@ namespace e_com_RSEt_API.Controllers
                 FristName = customerDetail.FristName,
                 LastName = customerDetail.LastName,
                 Email = customerDetail.Email,
-                EmailValidate = Convert.ToInt32(1),
                 Statest = 1,
                 CreateDate = DateTime.Now,
                 Dob = customerDetail.Dob,
@@ -167,5 +170,24 @@ namespace e_com_RSEt_API.Controllers
             //return Ok(customerDetail);
         }
 
+        [HttpPost]
+        [Route("customerEmails")]
+        public IActionResult CustomerEmails(CustomerEmail customerEmail)
+        {
+            var Customer_BLL = new Customer_BLL(_context);
+            var cusEmail = new CustomerEmail
+            {
+                Name = customerEmail.Name,
+                Email = customerEmail.Email,
+                Subject = customerEmail.Subject,
+                Message = customerEmail.Message,
+                Statest = 1 //1 one is non readed emails
+
+            };
+            Customer_BLL.insertEmail(cusEmail);
+            return Ok("SeccessInsert");
+        }
     }
+
 }
+

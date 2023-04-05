@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Common;
 using System.Data;
 
 namespace e_com_RSEt_API.Controllers
@@ -33,39 +34,49 @@ namespace e_com_RSEt_API.Controllers
             {
                 return NotFound();
             }
-            if (string.IsNullOrEmpty(customerDetail.Password))
+            var checkCustomerValidateEmail = await _context.CustomerDetails.FirstOrDefaultAsync(x => x.Email == customerDetail.Email && x.EmailValidate == 1);
+            if (checkCustomerValidateEmail != null)
             {
-                return BadRequest("Password is required");
+                if (string.IsNullOrEmpty(customerDetail.Password))
+                {
+                    return BadRequest("Password is required");
+                }
+                else
+                {
+                    var customerCheck = await _context.CustomerDetails.FirstOrDefaultAsync(x => x.Email == customerDetail.Email && x.Password == general.hashPassword(customerDetail.Password));
+                    if (customerCheck == null)
+                    {
+                        return StatusCode(404, "User Not Found");
+                    }
+                    // Generate JWT token
+                    var token = new JWTService(_configuration).GenerateToken(
+                        customerCheck.UserId.ToString(),
+                        customerCheck.FristName ?? "",
+                        "customer"
+                    );
+                    // Update the record
+                    customerCheck.LogInOut = (int)loginStates.loggedIn;
+                    customerCheck.LastLoginTime = DateTime.Now;
+                    customerCheck.Ip = customerDetail.Ip;
+
+                    _context.SaveChanges();
+
+                    //if (customerDetail != null && !string.IsNullOrEmpty(customerDetail.Email))
+                    //{
+                    //    string Email = customerDetail.Email;
+                    //    general.EmailSend(Email, "Login the M-SHOP", "Thanaq");
+                    //}
+
+
+                    return Ok(token);
+                }
             }
             else
             {
-                var customerCheck = await _context.CustomerDetails.FirstOrDefaultAsync(x => x.Email == customerDetail.Email && x.Password == general.hashPassword(customerDetail.Password));
-                if (customerCheck == null)
-                {
-                    return StatusCode(404, "User Not Found");
-                }
-                // Generate JWT token
-                var token = new JWTService(_configuration).GenerateToken(
-                    customerCheck.UserId.ToString(),
-                    customerCheck.FristName ?? "",
-                    "customer"
-                );
-                // Update the record
-                customerCheck.LogInOut = (int)loginStates.loggedIn;
-                customerCheck.LastLoginTime = DateTime.Now;
-                customerCheck.Ip = customerDetail.Ip;
-               
-                _context.SaveChanges();
-
-                //if (customerDetail != null && !string.IsNullOrEmpty(customerDetail.Email))
-                //{
-                //    string Email = customerDetail.Email;
-                //    general.EmailSend(Email, "Login the M-SHOP", "Thanaq");
-                //}
-
-
-                return Ok(token);
+                return BadRequest("Customer email is not validated.");
             }
+
+          
 
         }
 

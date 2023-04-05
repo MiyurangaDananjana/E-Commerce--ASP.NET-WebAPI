@@ -12,6 +12,13 @@ namespace e_com_RSEt_API.DAL
         {
             _db = db;
         }
+
+        public void ReferenceEquals(CustomerEmail cusEmail)
+        {
+            _db.CustomerEmails.Add(cusEmail);
+            _db.SaveChanges();
+        }
+
         public void saveCustomerAddress(CustomerAddressTb dto)
         {
 

@@ -10,6 +10,13 @@ namespace e_com_RSEt_API.BLL
         {
             _db = db;
         }
+
+        public void insertEmail(CustomerEmail cusEmail)
+        {
+            Customer_DAL homeDAL = new Customer_DAL(_db);
+            homeDAL.ReferenceEquals(cusEmail);
+        }
+
         public void saveCustomer(CustomerDetail dto)
         {
             Customer_DAL homeDAL = new Customer_DAL(_db);
