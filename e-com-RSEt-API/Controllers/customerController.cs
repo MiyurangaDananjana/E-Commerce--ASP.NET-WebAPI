@@ -194,7 +194,7 @@ namespace e_com_RSEt_API.Controllers
         {
             var profileData = _context.CustomerDetails.SingleOrDefault(x => x.UserId == userId);
 
-            if(profileData == null) { return NotFound(userId); }
+            if (profileData == null) { return NotFound(userId); }
 
             var customerProfile = new CustomerProfile
             {
@@ -204,6 +204,51 @@ namespace e_com_RSEt_API.Controllers
                 EmailAddress = profileData?.Email
             };
             return Ok(customerProfile);
+        }
+
+        [HttpPost]
+        [Route("update-profile")]
+        public IActionResult updateCustomerProfile(CustomerDetail customerDetail)
+        {
+            var customerProfile = _context.CustomerDetails.FirstOrDefault(x => x.UserId == customerDetail.UserId);
+
+            if (customerProfile != null)
+            {
+                customerProfile.FristName = customerDetail.FristName;
+                customerProfile.LastName = customerDetail.LastName;
+                customerProfile.Email = customerDetail.Email;
+                _context.SaveChanges();
+                return Ok("sucess");
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        [HttpPost]
+        [Route("customerProfileUpdateVerify")]
+        public IActionResult updateCustomerProfileUpdate(CustomerDetail customerDetail)
+        {
+            if(customerDetail == null) { NotFound(); }
+            if (customerDetail != null && !string.IsNullOrEmpty(customerDetail.Email))
+            {
+                int emailConfirmCode = general.emailConfirmCode();
+                string Email = customerDetail.Email;
+                string Subject = "Confirm Code";
+                string body = $"<h4>Welcome to our website!</h4><p>Thank you for signing up with us.</p><p>Please use the following confirmation code to complete your profile updates:</p><h2>{emailConfirmCode}</h2>";
+                general.EmailSend(Email, Subject, body);
+
+                var customer =_context.CustomerDetails.FirstOrDefault(x=>x.UserId == customerDetail.UserId);
+                if (customer != null)
+                {
+                    customerDetail.ConfiremCode = emailConfirmCode;
+                    _context.SaveChanges();
+                }
+                
+            }
+            return Ok("success");
         }
     }
 
