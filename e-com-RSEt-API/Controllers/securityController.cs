@@ -48,11 +48,16 @@ namespace e_com_RSEt_API.Controllers
                     {
                         return StatusCode(404, "User Not Found");
                     }
+
+                    string profileLink = $"http://localhost:5267/api/fileUpload/profile-customer/{customerCheck.ProfileImagePath}"; 
+                    
+
                     // Generate JWT token
                     var token = new JWTService(_configuration).GenerateToken(
                         customerCheck.UserId.ToString(),
                         customerCheck.FristName ?? "",
-                        "customer"
+                        "customer",
+                        profileLink
                     );
                     // Update the record
                     customerCheck.LogInOut = (int)loginStates.loggedIn;
@@ -103,7 +108,8 @@ namespace e_com_RSEt_API.Controllers
                 var token = new JWTService(_configuration).GenerateToken(
                     adminCheck.AdminId.ToString(),
                     adminCheck.UserName ?? "",
-                    "admin"
+                    "admin",
+                    "http://localhost:5267/api/fileUpload/profile-customer/499424.JPG"
                 );
                 return Ok(token);
             }

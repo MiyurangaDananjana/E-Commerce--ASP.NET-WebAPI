@@ -18,7 +18,7 @@ namespace e_com_RSEt_API.Models
             this.SecretKey = config.GetSection("jwtConfig").GetSection("key").Value;
             this.TokenDuration = TimeSpan.FromDays(Int32.Parse(config.GetSection("jwtConfig").GetSection("Duration").Value));
         }
-        public String GenerateToken(String Id, String Name,String Role)
+        public String GenerateToken(String Id, String Name,String Role,String ImagePath)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.SecretKey));
             var signature = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -26,6 +26,7 @@ namespace e_com_RSEt_API.Models
             {
                   new Claim("Id",Id ),
                   new Claim("Name",Name ),
+                  new Claim("ImageURL",ImagePath),
                   new Claim(ClaimTypes.Role, Role)
             };
             var jwtToken = new JwtSecurityToken(

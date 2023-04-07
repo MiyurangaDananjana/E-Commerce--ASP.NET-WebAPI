@@ -358,6 +358,11 @@ namespace e_com_RSEt_API.Models
                     .HasMaxLength(50)
                     .HasColumnName("PHONE_NUMBER");
 
+                entity.Property(e => e.ProfileImagePath)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("PROFILE_IMAGE_PATH");
+
                 entity.Property(e => e.Statest).HasColumnName("STATEST");
 
                 entity.Property(e => e.UserName)

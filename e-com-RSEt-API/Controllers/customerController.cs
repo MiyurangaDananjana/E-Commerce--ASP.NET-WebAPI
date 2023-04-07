@@ -174,6 +174,7 @@ namespace e_com_RSEt_API.Controllers
         [Route("customerEmails")]
         public IActionResult CustomerEmails(CustomerEmail customerEmail)
         {
+            if (customerEmail == null) { return NotFound(); }
             var Customer_BLL = new Customer_BLL(_context);
             var cusEmail = new CustomerEmail
             {
@@ -186,6 +187,23 @@ namespace e_com_RSEt_API.Controllers
             };
             Customer_BLL.insertEmail(cusEmail);
             return Ok("SeccessInsert");
+        }
+
+        [HttpGet("customer-profile/{userId}")]
+        public IActionResult getCustomerProfile(int userId)
+        {
+            var profileData = _context.CustomerDetails.SingleOrDefault(x => x.UserId == userId);
+
+            if(profileData == null) { return NotFound(userId); }
+
+            var customerProfile = new CustomerProfile
+            {
+                userId = profileData?.UserId,
+                FirstName = profileData?.FristName,
+                LastName = profileData?.LastName,
+                EmailAddress = profileData?.Email
+            };
+            return Ok(customerProfile);
         }
     }
 
