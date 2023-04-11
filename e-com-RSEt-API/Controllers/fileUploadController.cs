@@ -27,7 +27,6 @@ namespace e_com_RSEt_API.Controllers
         }
 
 
-
         /*Image Upload*/
         [HttpGet("{fileName}")]
         public async Task<IActionResult> GetImage([FromRoute] string fileName)
@@ -88,6 +87,7 @@ namespace e_com_RSEt_API.Controllers
             {
                 if (imageUpload.files.Length > 0)
                 {
+                    int customerId = imageUpload.userId; // Get the ID of the current customer (replace with your own code)
                     string path = _webHostEnvironment.WebRootPath + "\\profile-photos\\";
                     if (!Directory.Exists(path))
                     {
@@ -104,7 +104,7 @@ namespace e_com_RSEt_API.Controllers
                         imageUpload.files.CopyTo(fileStream);
                         fileStream.Flush();
                         // Update the customer record in the database with the new file name
-                        int customerId = imageUpload.userId; // Get the ID of the current customer (replace with your own code)
+                     
                         var customer = _context.CustomerDetails.SingleOrDefault(c => c.UserId == customerId);
                         if (customer != null)
                         {

@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http;
 
 
+
 namespace e_com_RSEt_API.Controllers
 {
     [Route("api/[controller]")]
@@ -210,7 +211,7 @@ namespace e_com_RSEt_API.Controllers
         [Route("update-profile")]
         public IActionResult updateCustomerProfile(CustomerDetail customerDetail)
         {
-            var customerProfile = _context.CustomerDetails.FirstOrDefault(x => x.UserId == customerDetail.UserId);
+            var customerProfile = _context.CustomerDetails.FirstOrDefault(x => x.UserId == customerDetail.UserId && x.ConfiremCode == customerDetail.ConfiremCode);
 
             if (customerProfile != null)
             {
@@ -231,7 +232,7 @@ namespace e_com_RSEt_API.Controllers
         [Route("customerProfileUpdateVerify")]
         public IActionResult updateCustomerProfileUpdate(CustomerDetail customerDetail)
         {
-            if(customerDetail == null) { NotFound(); }
+            if (customerDetail == null) { NotFound(); }
             if (customerDetail != null && !string.IsNullOrEmpty(customerDetail.Email))
             {
                 int emailConfirmCode = general.emailConfirmCode();
@@ -239,17 +240,66 @@ namespace e_com_RSEt_API.Controllers
                 string Subject = "Confirm Code";
                 string body = $"<h4>Welcome to our website!</h4><p>Thank you for signing up with us.</p><p>Please use the following confirmation code to complete your profile updates:</p><h2>{emailConfirmCode}</h2>";
                 general.EmailSend(Email, Subject, body);
-
-                var customer =_context.CustomerDetails.FirstOrDefault(x=>x.UserId == customerDetail.UserId);
+                var customer = _context.CustomerDetails.FirstOrDefault(x => x.UserId == customerDetail.UserId);
                 if (customer != null)
                 {
-                    customerDetail.ConfiremCode = emailConfirmCode;
+                    customer.ConfiremCode = emailConfirmCode;
                     _context.SaveChanges();
                 }
-                
+
             }
             return Ok("success");
         }
+
+
+        [HttpGet("custome-address/{userId}")]
+        public IActionResult customerAddress(int userId)
+        {
+            var customer = _context.CustomerDetails.SingleOrDefault(x => x.UserId == userId);
+            if (customer == null) { return NotFound(); }
+            var customerAddress = _context.CustomerAddressTbs.Where(x => x.CustomerCode == userId).ToList();
+            if (customerAddress == null || customerAddress.Count == 0) { return NotFound(); }
+            return Ok(customerAddress);
+
+        }
+
+        [HttpPut]
+        [Route("change-password")]
+        public IActionResult UpdatePassword(int id, [FromBody] string newPassword)
+        {
+
+            var user = _context.CustomerDetails.FirstOrDefault(u => u.UserId == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.Password = newPassword;
+            _context.SaveChanges();
+            return Ok();
+        }
+
+
+
+        [HttpDelete("address-delete/{addressId}")]
+        public IActionResult addressDelete(int addressId)
+        {
+            var addressRecord = _context.CustomerAddressTbs.SingleOrDefault(x => x.AddressId == addressId);
+            if (addressRecord == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                _context.CustomerAddressTbs.Remove(addressRecord);
+                _context.SaveChanges();
+                return Ok("success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while deleting the address: {ex.Message}");
+            }
+        }
+
     }
 
 }

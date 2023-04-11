@@ -2,7 +2,9 @@
 using e_com_RSEt_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Data.Entity;
+using System.Reflection.Metadata;
 
 namespace e_com_RSEt_API.Controllers
 {
@@ -212,6 +214,11 @@ namespace e_com_RSEt_API.Controllers
                 return Ok("Success");
             }
         }
+
+
+
+
+
         [HttpGet]
         [Route("ComputerManufacturers")]
         public IActionResult GetCustomers()
@@ -436,7 +443,77 @@ namespace e_com_RSEt_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("keyboard")]
+        public IActionResult addNewKeyBord(Keyboard keyboard)
+        {
+            if (keyboard == null) { NotFound(); }
+            int lastId = _context.Keyboards.OrderByDescending(x => x.KeyboardId).Select(x => x.KeyboardId).FirstOrDefault();
+            //assign the new ID to the keyboard entity
+            var newkeyBoard = new Keyboard
+            {
+                KeyboardId = lastId + 1,
+                Brand = keyboard?.Brand,
+                Model = keyboard?.Model,
+                Connectivity = keyboard?.Connectivity,
+                Compatibility = keyboard?.Compatibility,
+                Price = keyboard?.Price,
+                StockQuantity = keyboard?.StockQuantity,
+            };
+            _context.Keyboards.Add(newkeyBoard);
+            _context.SaveChanges();
+            return Ok("Success");
+        }
 
+        [HttpPut]
+        [Route("keyboard/{id}")]
+        public IActionResult UpdateKeyboard(int id, Keyboard keyboard)
+        {
+            if (keyboard == null)
+            {
+                return NotFound();
+            }
 
+            var existingKeyboard = _context.Keyboards.FirstOrDefault(x => x.KeyboardId == id);
+
+            if (existingKeyboard == null)
+            {
+                return NotFound();
+            }
+
+            existingKeyboard.Brand = keyboard?.Brand ?? existingKeyboard.Brand;
+            existingKeyboard.Model = keyboard?.Model ?? existingKeyboard.Model;
+            existingKeyboard.Connectivity = keyboard?.Connectivity ?? existingKeyboard.Connectivity;
+            existingKeyboard.Compatibility = keyboard?.Compatibility ?? existingKeyboard.Compatibility;
+            existingKeyboard.Price = keyboard?.Price ?? existingKeyboard.Price;
+            existingKeyboard.StockQuantity = keyboard?.StockQuantity ?? existingKeyboard.StockQuantity;
+
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("keyboards")]
+        public IActionResult GetAllKeyboards()
+        {
+            var keyboards = _context.Keyboards.ToList();
+            return Ok(keyboards);
+        }
+
+        [HttpDelete]
+        [Route("keyboard/{id}")]
+        public IActionResult DeleteKeyboard(int id)
+        {
+            var keyboard = _context.Keyboards.FirstOrDefault(x => x.KeyboardId == id);
+            if (keyboard == null)
+            {
+                return NotFound();
+            }
+
+            _context.Keyboards.Remove(keyboard);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

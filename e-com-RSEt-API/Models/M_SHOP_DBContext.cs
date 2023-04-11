@@ -17,6 +17,7 @@ namespace e_com_RSEt_API.Models
         }
 
         public virtual DbSet<AdminLogin> AdminLogins { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<ComSeries> ComSeries { get; set; } = null!;
         public virtual DbSet<ComputerHard> ComputerHards { get; set; } = null!;
         public virtual DbSet<ComputerManufacturer> ComputerManufacturers { get; set; } = null!;
@@ -31,8 +32,14 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<CustomerDetail> CustomerDetails { get; set; } = null!;
         public virtual DbSet<CustomerEmail> CustomerEmails { get; set; } = null!;
         public virtual DbSet<HardDriveType> HardDriveTypes { get; set; } = null!;
+        public virtual DbSet<Headset> Headsets { get; set; } = null!;
+        public virtual DbSet<Keyboard> Keyboards { get; set; } = null!;
         public virtual DbSet<LaptopDesktopView> LaptopDesktopViews { get; set; } = null!;
+        public virtual DbSet<Mouse> Mice { get; set; } = null!;
         public virtual DbSet<NewComputer> NewComputers { get; set; } = null!;
+        public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ProductSpacification> ProductSpacifications { get; set; } = null!;
         public virtual DbSet<ShipingMethod> ShipingMethods { get; set; } = null!;
 
@@ -72,6 +79,25 @@ namespace e_com_RSEt_API.Models
                 entity.Property(e => e.UserName)
                     .HasMaxLength(50)
                     .HasColumnName("USER_NAME");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("CATEGORIES");
+
+                entity.Property(e => e.CategoryId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("CATEGORY_ID");
+
+                entity.Property(e => e.CategoryDescription)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("CATEGORY_DESCRIPTION");
+
+                entity.Property(e => e.CategoryName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("CATEGORY_NAME");
             });
 
             modelBuilder.Entity<ComSeries>(entity =>
@@ -415,6 +441,92 @@ namespace e_com_RSEt_API.Models
                     .HasColumnName("TYPE");
             });
 
+            modelBuilder.Entity<Headset>(entity =>
+            {
+                entity.ToTable("HEADSETS");
+
+                entity.Property(e => e.HeadsetId).HasColumnName("HEADSET_ID");
+
+                entity.Property(e => e.Brand)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("BRAND");
+
+                entity.Property(e => e.Compatibility)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("COMPATIBILITY");
+
+                entity.Property(e => e.Connectivity).HasColumnName("CONNECTIVITY");
+
+                entity.Property(e => e.FrequencyResponse)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("FREQUENCY_RESPONSE");
+
+                entity.Property(e => e.Impedance)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("IMPEDANCE");
+
+                entity.Property(e => e.Microphone).HasColumnName("MICROPHONE");
+
+                entity.Property(e => e.Model)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MODEL");
+
+                entity.Property(e => e.Sensitivity)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("SENSITIVITY");
+
+                entity.Property(e => e.Warranty)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("WARRANTY");
+
+                entity.Property(e => e.Weight)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("WEIGHT");
+            });
+
+            modelBuilder.Entity<Keyboard>(entity =>
+            {
+                entity.ToTable("KEYBOARDS");
+
+                entity.Property(e => e.KeyboardId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("KEYBOARD_ID");
+
+                entity.Property(e => e.Brand)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("BRAND");
+
+                entity.Property(e => e.Compatibility)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("COMPATIBILITY");
+
+                entity.Property(e => e.Connectivity)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("CONNECTIVITY");
+
+                entity.Property(e => e.Model)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MODEL");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("PRICE");
+
+                entity.Property(e => e.StockQuantity).HasColumnName("STOCK_QUANTITY");
+            });
+
             modelBuilder.Entity<LaptopDesktopView>(entity =>
             {
                 entity.HasKey(e => e.CumputerId);
@@ -446,6 +558,41 @@ namespace e_com_RSEt_API.Models
                     .HasColumnName("YEAR");
             });
 
+            modelBuilder.Entity<Mouse>(entity =>
+            {
+                entity.ToTable("MOUSE");
+
+                entity.Property(e => e.MouseId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("MOUSE_ID");
+
+                entity.Property(e => e.Brand)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("BRAND");
+
+                entity.Property(e => e.Connectivity)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("CONNECTIVITY");
+
+                entity.Property(e => e.Model)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MODEL");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("PRICE");
+
+                entity.Property(e => e.SensorType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("SENSOR_TYPE");
+
+                entity.Property(e => e.StockQuantity).HasColumnName("STOCK_QUANTITY");
+            });
+
             modelBuilder.Entity<NewComputer>(entity =>
             {
                 entity.HasKey(e => e.ComId);
@@ -467,6 +614,116 @@ namespace e_com_RSEt_API.Models
                 entity.Property(e => e.Price).HasColumnName("PRICE");
 
                 entity.Property(e => e.States).HasColumnName("STATES");
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable("ORDERS");
+
+                entity.Property(e => e.OrderId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ORDER_ID");
+
+                entity.Property(e => e.OrderDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ORDER_DATE");
+
+                entity.Property(e => e.TotalPrice)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("TOTAL_PRICE");
+            });
+
+            modelBuilder.Entity<OrderDetail>(entity =>
+            {
+                entity.HasKey(e => new { e.OrderId, e.ProductId });
+
+                entity.ToTable("ORDER_DETAILS");
+
+                entity.Property(e => e.OrderId).HasColumnName("ORDER_ID");
+
+                entity.Property(e => e.ProductId).HasColumnName("PRODUCT_ID");
+
+                entity.Property(e => e.Quantity).HasColumnName("QUANTITY");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ORDER_ID");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PRODUCT_ID");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.ToTable("PRODUCTS");
+
+                entity.Property(e => e.ProductId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("PRODUCT_ID");
+
+                entity.Property(e => e.CategoryId).HasColumnName("CATEGORY_ID");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("PRICE");
+
+                entity.Property(e => e.ProductDescription)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("PRODUCT_DESCRIPTION");
+
+                entity.Property(e => e.ProductImage).HasColumnName("PRODUCT_IMAGE");
+
+                entity.Property(e => e.ProductName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("PRODUCT_NAME");
+
+                entity.Property(e => e.StockQuantity).HasColumnName("STOCK_QUANTITY");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_CATEGORY_ID");
+
+                entity.HasMany(d => d.Keyboards)
+                    .WithMany(p => p.Products)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "ProductKeyboard",
+                        l => l.HasOne<Keyboard>().WithMany().HasForeignKey("KeyboardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_PK_KEYBOARD_ID"),
+                        r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_PK_PRODUCT_ID"),
+                        j =>
+                        {
+                            j.HasKey("ProductId", "KeyboardId");
+
+                            j.ToTable("PRODUCT_KEYBOARDS");
+
+                            j.IndexerProperty<int>("ProductId").HasColumnName("PRODUCT_ID");
+
+                            j.IndexerProperty<int>("KeyboardId").HasColumnName("KEYBOARD_ID");
+                        });
+
+                entity.HasMany(d => d.Mice)
+                    .WithMany(p => p.Products)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "ProductMice",
+                        l => l.HasOne<Mouse>().WithMany().HasForeignKey("MouseId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_PM_MOUSE_ID"),
+                        r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_PM_PRODUCT_ID"),
+                        j =>
+                        {
+                            j.HasKey("ProductId", "MouseId");
+
+                            j.ToTable("PRODUCT_MICE");
+
+                            j.IndexerProperty<int>("ProductId").HasColumnName("PRODUCT_ID");
+
+                            j.IndexerProperty<int>("MouseId").HasColumnName("MOUSE_ID");
+                        });
             });
 
             modelBuilder.Entity<ProductSpacification>(entity =>

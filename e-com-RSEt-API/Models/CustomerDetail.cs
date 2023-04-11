@@ -20,10 +20,6 @@ namespace e_com_RSEt_API.Models
         public DateTime? Dob { get; set; }
         public string? Ip { get; set; }
         public int? ConfiremCode { get; set; }
-        public string? ProfileImagePath { get; set; } // maps to 'ProfileImagePath' column in the database
-
-
-
+        public string? ProfileImagePath { get; set; }
     }
-
 }
