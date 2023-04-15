@@ -28,7 +28,7 @@ namespace e_com_RSEt_API.Controllers
 
 
         /*Image Upload*/
-        [HttpGet("{fileName}")]
+        [HttpGet("item-image/{fileName}")]
         public async Task<IActionResult> GetImage([FromRoute] string fileName)
         {
             string path = _webHostEnvironment.WebRootPath + "\\uploads\\";

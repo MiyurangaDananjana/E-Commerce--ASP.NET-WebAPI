@@ -35,7 +35,7 @@ namespace e_com_RSEt_API.Models
         public virtual DbSet<Headset> Headsets { get; set; } = null!;
         public virtual DbSet<Keyboard> Keyboards { get; set; } = null!;
         public virtual DbSet<LaptopDesktopView> LaptopDesktopViews { get; set; } = null!;
-        public virtual DbSet<Mouse> Mice { get; set; } = null!;
+        public virtual DbSet<Mouse> Mouses { get; set; } = null!;
         public virtual DbSet<NewComputer> NewComputers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;

@@ -465,6 +465,28 @@ namespace e_com_RSEt_API.Controllers
             return Ok("Success");
         }
 
+        [HttpPost]
+        [Route("mouse")]
+        public IActionResult addNewMouse(Mouse mouse)
+        {
+            if (mouse == null) { NotFound(); }
+            int mouseLastId = _context.Mouses.OrderByDescending(x => x.MouseId).Select(x => x.MouseId).FirstOrDefault();
+            //assing the new ID to the mouse entity
+            var mouseData = new Mouse
+            {
+                MouseId = mouseLastId + 1,
+                Brand = mouse?.Brand,
+                Model = mouse?.Model,
+                Connectivity = mouse?.Connectivity,
+                SensorType = mouse?.SensorType,
+                Price = mouse?.Price,
+                StockQuantity = mouse?.StockQuantity,
+            };
+            _context.Mouses.Add(mouseData);
+            _context.SaveChanges();
+            return Ok("sucess");
+        }
+
         [HttpPut]
         [Route("keyboard/{id}")]
         public IActionResult UpdateKeyboard(int id, Keyboard keyboard)
@@ -475,6 +497,11 @@ namespace e_com_RSEt_API.Controllers
             }
 
             var existingKeyboard = _context.Keyboards.FirstOrDefault(x => x.KeyboardId == id);
+            int? existingQuantity = existingKeyboard?.StockQuantity ?? 0;
+            int? updateValue = existingQuantity + keyboard.StockQuantity;
+
+            if (keyboard.StockQuantity == null) { NotFound("Stock Quantity is Null"); }
+
 
             if (existingKeyboard == null)
             {
@@ -486,12 +513,46 @@ namespace e_com_RSEt_API.Controllers
             existingKeyboard.Connectivity = keyboard?.Connectivity ?? existingKeyboard.Connectivity;
             existingKeyboard.Compatibility = keyboard?.Compatibility ?? existingKeyboard.Compatibility;
             existingKeyboard.Price = keyboard?.Price ?? existingKeyboard.Price;
-            existingKeyboard.StockQuantity = keyboard?.StockQuantity ?? existingKeyboard.StockQuantity;
+            existingKeyboard.StockQuantity = updateValue;
 
             _context.SaveChanges();
 
-            return Ok();
+            return Ok("success");
         }
+
+        [HttpPut]
+        [Route("mouse/{id}")]
+        public IActionResult UpdateMouse(int id, Mouse mouse)
+        {
+            if (mouse == null)
+            {
+                return NotFound();
+            }
+
+            var existingMouse = _context.Mouses.FirstOrDefault(x => x.MouseId == id);
+            int? existingQuantity = existingMouse?.StockQuantity ?? 0;
+            int? updateValue = existingQuantity + mouse.StockQuantity;
+
+            if (mouse.StockQuantity == null) { NotFound("Stock Quantity is Null"); }
+
+
+            if (existingMouse == null)
+            {
+                return NotFound();
+            }
+
+            existingMouse.Brand = mouse?.Brand ?? existingMouse.Brand;
+            existingMouse.Model = mouse?.Model ?? existingMouse.Model;
+            existingMouse.Connectivity = mouse?.Connectivity ?? existingMouse.Connectivity;
+            existingMouse.SensorType = mouse?.SensorType ?? existingMouse.SensorType;
+            existingMouse.Price = mouse?.Price ?? existingMouse.Price;
+            existingMouse.StockQuantity = updateValue;
+
+            _context.SaveChanges();
+
+            return Ok("success");
+        }
+
 
         [HttpGet]
         [Route("keyboards")]
@@ -499,6 +560,14 @@ namespace e_com_RSEt_API.Controllers
         {
             var keyboards = _context.Keyboards.ToList();
             return Ok(keyboards);
+        }
+
+        [HttpGet]
+        [Route("mouse")]
+        public IActionResult getMouseData()
+        {
+            var mouseData = _context.Mouses.ToList();
+            return Ok(mouseData);
         }
 
         [HttpDelete]
@@ -512,6 +581,17 @@ namespace e_com_RSEt_API.Controllers
             }
 
             _context.Keyboards.Remove(keyboard);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("mouse/{Id}")]
+        public IActionResult deleteMouse(int Id)
+        {
+            var mouse = _context.Mouses.FirstOrDefault(x => x.MouseId == Id);
+            if (mouse == null) { return NotFound(); }
+            _context.Mouses.Remove(mouse);
             _context.SaveChanges();
             return Ok();
         }

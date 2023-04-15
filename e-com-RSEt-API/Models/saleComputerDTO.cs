@@ -14,7 +14,7 @@
         {
             get
             {
-                return "http://localhost:5267/api/fileUpload/" + ImagePath;
+                return "http://localhost:5267/api/fileUpload/item-image/" + ImagePath;
                 //set the api URL
             }
             set
